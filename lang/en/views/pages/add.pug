@@ -1,0 +1,16 @@
+form(action='/add/')
+	label Enter content title
+	br
+	input(type='text', name='title')
+	br
+	br
+	label Enter content text
+	br
+	textarea(name='text')
+	br
+	br
+	input(type='submit', name='submit', value='Send Data')
+	br
+	br
+	!=cms.includeBlock('objects_list', {myName: 'Andrew'})
+	div data from users: #{data.users}

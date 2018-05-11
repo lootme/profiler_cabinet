@@ -1,0 +1,15 @@
+h1 Authorization form
+form(action=cms.getCurrentUrl() method='post')
+	p #{data.test}
+	if(data.errorMessage)
+		p.error #{data.errorMessage}
+	if(!data.user)
+		input(name='login' value='' type='text' placeholder='Enter your login')
+		br
+		input(name='psswd' value='' type='password' placeholder='Enter your password')
+		br
+		input(name='login_submit' value='Log In' type='submit')
+	else
+		p You entered successfully. Your login: #{data.user.name}
+		br
+		a(href='/auth/?logout=yes') Logout

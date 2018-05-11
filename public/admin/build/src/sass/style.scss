@@ -1,0 +1,73 @@
+table {
+	tr {
+		td {
+			border: 1px solid #000;
+			padding: 5px;
+		}
+	}
+}
+.heading, .subheading {
+	font-weight: bold;
+    font-size: 24px;
+    font-family: sans-serif;
+    line-height: 30px;
+}
+.subheading {
+	font-size: 18px;
+	line-height: 25px;
+}
+.error {
+	color: red;
+}
+.form-instance-add {
+	margin: 20px 0;
+}
+.form-instance-add-field {
+	margin: 5px 0;
+}
+.instance-control-buttons {
+	margin: 5px 0;
+}
+.path-breadcrumbs {
+	margin: 10px 0;
+	
+	.path-breadcrumbs-item {
+		color: #856fb1;
+		cursor: pointer;
+	}
+}
+.path-item {
+	cursor: pointer;
+	
+	&.type-d {
+		color: #856fb1;
+	}
+	&.type-f {
+		color: #a21414;
+	}
+}
+.path-items-editor {
+        position: fixed;
+        left: 200px;
+        top: 100px;
+        padding: 10px 15px 10px 10px;
+        width: 800px;
+        height: 500px;
+        z-index: 1000;
+        background: #f0f0f0;
+        border: 2px solid;
+}
+.path-items-editor {
+	textarea {
+		width: 100% !important;
+		height: 90% !important;
+	}
+	.path-items-editor-buttons {
+			padding: 10px;
+			float: right;
+			
+			button {
+				    margin: 0 5px;	
+			}
+	}
+}

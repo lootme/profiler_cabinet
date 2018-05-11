@@ -1,0 +1,10 @@
+{
+	"_comment": "Use 'route' key to store an array of objects in it like this one { 'rule' : 'path with regex if needed', 'matches' : ['array of names of parameters matched in rule regex'], 'path' : 'real path'}",
+	"route": [
+		{
+			"rule": "\/add\/([^\/]*)\/([^\/]*)\/",
+			"matches": ["user_id", "action"],
+			"path": "/add"
+		}
+	]
+}

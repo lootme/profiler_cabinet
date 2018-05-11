@@ -1,0 +1,21 @@
+body {
+
+	.aside {
+		position: fixed;
+		width: 12%;
+		padding: 50px 20px;
+		background: #f0f0f0;
+		height: 100%;
+		left: 0;
+		top: 0;
+		font-size: 13px;
+		font-family: sans-serif;
+		line-height: 25px;
+	}
+	
+	.content {
+		width: 88%;
+		margin-left: 12%;
+		padding: 20px;
+	}
+}
