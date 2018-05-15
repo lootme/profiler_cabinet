@@ -1,4 +1,4 @@
-FROM amd64/node:6.14.2
+FROM node:6.9
 WORKDIR /nodejs_apps/profiler_cabinet
 COPY package*.json ./
 RUN npm install
