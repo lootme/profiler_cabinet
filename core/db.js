@@ -30,7 +30,7 @@ module.exports = (dbHost, dbName, dbUser, dbPassword, notUseORM) => {
 		dbName,
 		dbUser,
 		dbPassword,
-		{ host : dbHost, dialect: 'postgres', port: 5433 }
+		{ host : dbHost, dialect: 'postgres' }
 	);
 
 	fs.readdirSync('./models').filter(function(file) {
