@@ -16,7 +16,7 @@ var config = {
 		},
 	},
 	
-	/**/dbHost: 'localhost',
+	/**/dbHost: 'db',
 	/**/dbName: 'nodejs_cms',
 	/**/dbUser: 'postgres',
 	/**/dbPassword: 'marionetka99',
@@ -25,6 +25,5 @@ var config = {
 	
 	// next line for showing cms errors manually anywhere on the site
 	showErrorsManually: true,
-	
 };
 module.exports = config;
