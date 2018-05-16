@@ -16,7 +16,7 @@ var config = {
 		},
 	},
 	
-	/**/dbHost: 'localhost',
+	/**/dbHost: 'postgres',
 	/**/dbName: 'nodejs_cms',
 	/**/dbUser: 'postgres',
 	/**/dbPassword: 'marionetka99',
