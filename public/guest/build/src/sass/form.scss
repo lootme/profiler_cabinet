@@ -1,0 +1,9 @@
+form {
+	display: flex;
+	flex-direction: column;
+	input {
+		height: 36px;
+		border: none;
+		box-shadow: 0 -1px 0 0 #dedede inset;
+	}
+}

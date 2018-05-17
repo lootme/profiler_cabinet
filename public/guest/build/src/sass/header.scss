@@ -1,7 +1,13 @@
 .header {
 	display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 200px;
-    background-color: #0e6ebe;
+	align-items: center;
+	justify-content: center;
+	height:  var(--header-height);
+	background-color: #0e6ebe;
+	logo {
+		width: 140px;
+		height: 140px;
+		background-image: url("/public/guest/build/src/images/MPC.png");
+		background-size: cover;
+	}
 }
