@@ -1,0 +1,39 @@
+menu.left-menu {
+	display: block;
+	height: fit-content;
+	padding: 10px;
+	background-color: #fff;
+	border-radius: 4px;
+	box-shadow: 0 0 0 1px #dedede inset;
+	a {
+		--color: #242628;
+		--background-color: #fafafa;
+		--height: 32px;
+		position: relative;
+		display: block;
+		height: var(--height);
+		line-height: var(--height);
+		padding: 0 10px;
+		font-size: 15px;
+		color: var(--color);
+		background-color: var(--background-color);
+		transition-duration: .4s;
+		transition-property: color,background-color;
+		cursor: pointer;
+		&:hover {
+			--color: #666666;
+			--background-color: #e8e8e8;
+		}
+		&:nth-of-type(n+2) {
+			margin-top: 10px;
+		}
+		icon {
+			--icon__size: 14px;
+			--icon__color: var(--color);
+			--data: url("/public/guest/build/src/images/right-arrow.svg");
+			position: absolute;
+			right: 10px;
+			bottom: calc(var(--height) / 2 - var(--icon__size) / 2);
+		}
+	}
+}
