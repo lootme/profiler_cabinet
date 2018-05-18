@@ -5,15 +5,17 @@ html
 		title Node JS Flavour - Administrative Section
 	body
 		aside.aside
-			a(href="/admin/manage_users/") 1. Manage users
+			a(href="/auth/") 1. Account
 			br
-			a(href="/admin/add_user/") 2. Add Users
+			a(href="/admin/manage_users/") 2. Manage users
 			br
-			a(href="/admin/manage_user_roles/") 3. Manage user roles
+			a(href="/admin/add_user/") 3. Add Users
 			br
-			a(href="/admin/manage_user_role_actions/") 4. Manage user role actions
+			a(href="/admin/manage_user_roles/") 4. Manage user roles
 			br
-			a(href="/admin/file_manager/") 5. Manage files
+			a(href="/admin/manage_user_role_actions/") 5. Manage user role actions
+			br
+			a(href="/admin/file_manager/") 6. Manage files
 		div.content
 			if errorText.length
 				div(style={color: 'red'}) #{errorText}

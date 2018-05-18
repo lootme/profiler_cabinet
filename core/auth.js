@@ -107,13 +107,13 @@ module.exports = (app) => {
 		},
 		
 		check : (actionCode) => {
-			
+
 			var user = auth.get();
 			
 			if(user && user.actions){
 				if(user.actions.indexOf(actionCode) < 0) {
 					// show error
-					cms.setPageError('Not enough permissions to perform operation!');
+					cms.setPageError('Not enough permissions (' + actionCode + ') to perform operation!');
 					return false;
 				}
 			} else {
