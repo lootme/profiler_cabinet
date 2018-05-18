@@ -14,6 +14,18 @@ module.exports = {
 			cms.call(params.name, 'getItems', {}, function(instanceItems) {
 				result.instanceItems = instanceItems;
 				cms.call(params.name, 'getFields', {}, function(instanceFields) {
+					
+					if(helper.defined(params, 'add_fields_settings')) {
+						Object.keys(instanceFields).map((key, index) => {
+							if(params.add_fields_settings[instanceFields[key].code]) {
+								instanceFields[key] = helper.extend(
+									instanceFields[key],
+									params.add_fields_settings[instanceFields[key].code]
+								);
+							}
+						});
+					}
+					
 					result.fields = instanceFields;
 					onLogicProcessed(result);
 				});

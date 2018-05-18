@@ -63,7 +63,8 @@ module.exports = {
 			
 		UserRole.findAll(findAllSettings)
 		.then(function(userRoles) {
-			var result = [];
+			var result = [],
+				resultItem;
 			userRoles.forEach(userRole => {
 				var actions = [],
 					actionsData = [];
@@ -73,15 +74,18 @@ module.exports = {
 						actions.push(String(userRoleActionInstance.dataValues.id));
 					});
 				}
-				result.push({
+				resultItem = {
 					id: userRole.dataValues.id,
 					name: userRole.dataValues.name,
 					priority: userRole.dataValues.priority,
 					actions: actions,
-					actionsData: actionsData,
 					createdAt: helper.formatDate(userRole.dataValues.createdAt.toString(), true),
 					updatedAt: helper.formatDate(userRole.dataValues.updatedAt.toString(), true)
-				});
+				};
+				if(params.onlyRaw != 'y') {
+					resultItem.actionsData = actionsData;
+				}
+				result.push(resultItem);
 			});
 
 			onResultReady(result);

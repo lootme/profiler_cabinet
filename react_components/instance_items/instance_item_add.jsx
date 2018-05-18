@@ -8,12 +8,17 @@ class InstanceItemAdd extends React.Component {
 		this.state = {};
 		
 		Object.keys(props.fields).map((key, index) => {
-			var isPlural = this.props.fields[key].plural;
-			this.state[props.fields[key].code] = isPlural ? [] : '';
+			var isPlural = this.props.fields[key].plural,
+				defaultValue = this.props.fields[key].default_value;
+			this.state[props.fields[key].code] = defaultValue ? defaultValue : (isPlural ? [] : '');
 		});
 		
 		this.add = this.add.bind(this);
 		this.handlePluralOption = this.handlePluralOption.bind(this);
+	}
+	
+	componentDidMount() {
+		
 	}
 
 	add(e) {
@@ -42,8 +47,10 @@ class InstanceItemAdd extends React.Component {
 			
 			var code = this.props.fields[key].code,
 				enumValues = this.props.fields[key].values,
-				placeholder = "Enter " + code,
+				label = this.props.fields[key].label ? this.props.fields[key].label : code,
+				placeholder = "Enter " + label,
 				isPlural = this.props.fields[key].plural;
+				
 				
 			
 			if(enumValues) {
@@ -54,11 +61,13 @@ class InstanceItemAdd extends React.Component {
 					return(
 						<div className="form-instance-add-field">
 							{
-								enumValues.map((priorityOption) => {
+								enumValues.map((enumValue) => {
+									var checked = this.state[code] && this.state[code].indexOf(enumValue.value) >= 0 ? "checked" : false;
+									
 									return (
 										<div>
-											<input type="checkbox" name={code} value={priorityOption.value} onChange={this.handlePluralOption}/>
-											<label>{priorityOption.name}</label>
+											<input type="checkbox" name={code} value={enumValue.value} onChange={this.handlePluralOption} checked={checked}/>
+											<label>{enumValue.name}</label>
 										</div>
 									)
 								})
@@ -67,15 +76,15 @@ class InstanceItemAdd extends React.Component {
 					)
 				} else {
 					// select
+					var options = Object.keys(enumValues).map((key, index) => {
+						var selected = this.state[code] && this.state[code] == enumValues[key].value ? 'selected' : false;
+						return <option value={enumValues[key].value} selected={selected}>{enumValues[key].name}</option>
+					});
 					return (
 						<div className="form-instance-add-field">
 							<select name={code} onChange={ (e) => this.setState({ [e.target.name] : e.target.value }) }>
 								<option value="">Select {code}</option>
-								{
-									enumValues.map((priorityOption) =>
-									  <option value={priorityOption.value}>{priorityOption.name}</option>
-									)
-								}
+								{options}
 							</select>
 						</div>
 					)
@@ -86,7 +95,8 @@ class InstanceItemAdd extends React.Component {
 				// string type
 				return (
 					<div className="form-instance-add-field">
-						<input type="text" name={code} className="form-instance-add-field" onChange={ (e) => this.setState({ [e.target.name]: e.target.value }) } placeholder={placeholder} />
+						<label>{label}</label>
+						<input type="text" name={code} className="form-instance-add-field" onChange={ (e) => this.setState({ [e.target.name]: e.target.value }) } placeholder={placeholder} value={this.state[code]} />
 					</div>
 				)
 				

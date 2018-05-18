@@ -13,7 +13,7 @@ var _instanceItems = [],
 function loadInstanceItems(data, callback) {
 	fetch('/api/' + InstanceItemsStore.instanceName + '/get_items/', {
 		method: 'post',
-		body: 'sortBy=' + _sortField + '&orderBy=' + _sortOrder
+		body: 'sortBy=' + _sortField + '&orderBy=' + _sortOrder + '&onlyRaw=y'
 	})
 	.then(function(response) {
 		return response.json();

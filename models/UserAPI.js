@@ -30,6 +30,9 @@ module.exports = {
 					id: user.dataValues.id,
 					username: user.dataValues.username,
 					roles: roles,
+					name: user.dataValues.name,
+					last_name: user.dataValues.last_name,
+					api_key: user.dataValues.api_key,
 					createdAt: helper.formatDate(user.dataValues.createdAt.toString(), true),
 					updatedAt: helper.formatDate(user.dataValues.updatedAt.toString(), true)
 				});
@@ -62,6 +65,9 @@ module.exports = {
 					id: user.dataValues.id,
 					username: user.dataValues.username,
 					roles: roles,
+					name: user.dataValues.name,
+					last_name: user.dataValues.last_name,
+					api_key: user.dataValues.api_key,
 					createdAt: helper.formatDate(user.dataValues.createdAt.toString(), true),
 					updatedAt: helper.formatDate(user.dataValues.updatedAt.toString(), true)
 				});
@@ -93,7 +99,7 @@ module.exports = {
 	},
 	
 	addItem : (itemSrc, callback) => {
-		
+		console.log('itemSrc is', itemSrc);
 		if(!auth.check("USERS_ADD"))
 			return callback({ success: false });
 		
@@ -102,6 +108,9 @@ module.exports = {
 			User.create({
 				username: itemSrc.username,
 				password_hash: hash,
+				name: itemSrc.name,
+				last_name: itemSrc.last_name,
+				api_key: itemSrc.api_key,
 			})
 			.then(function(){
 				callback({ success: true });

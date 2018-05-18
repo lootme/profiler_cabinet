@@ -37,7 +37,6 @@ class InstanceItem extends React.Component {
 					editingValue = this.props.editingData[code],
 					isPlural = this.props.fields[key].plural;
 					
-					console.log('editingValue', editingValue);
 				if(enumValues) {
 				
 					// enum type
@@ -46,14 +45,14 @@ class InstanceItem extends React.Component {
 						inputs[code] = (
 							<div>
 								{
-									enumValues.map((priorityOption) => {
-										var checked = editingValue.indexOf(priorityOption.value) >= 0 ? "checked" : false,
+									enumValues.map((enumValue) => {
+										var checked = editingValue.indexOf(enumValue.value) >= 0 ? "checked" : false,
 											checkboxId = 'check-control-' + code;
 										
 										return (
 											<span>
-												<input id="{checkboxId}" type="checkbox" data-plural={isPlural} name={code} value={priorityOption.value} onChange={this.setEditingData} checked={checked}/>
-												<label htmlFor={checkboxId}>{priorityOption.name}</label>
+												<input id="{checkboxId}" type="checkbox" data-plural={isPlural} name={code} value={enumValue.value} onChange={this.setEditingData} checked={checked}/>
+												<label htmlFor={checkboxId}>{enumValue.name}</label>
 											</span>
 										)
 									})
@@ -66,9 +65,9 @@ class InstanceItem extends React.Component {
 							<select name={code} onChange={this.setEditingData}>
 								<option value="">Select {code}</option>
 								{
-									enumValues.map((priorityOption) => {
-										var selected = editingValue == priorityOption.value ? 'selected' : false;
-										return <option value={priorityOption.value} selected={selected}>{priorityOption.name}</option>
+									enumValues.map((enumValue) => {
+										var selected = editingValue == enumValue.value ? 'selected' : false;
+										return <option value={enumValue.value} selected={selected}>{enumValue.name}</option>
 									})
 								}
 							</select>
@@ -92,7 +91,7 @@ class InstanceItem extends React.Component {
 				// edit mode
 				cell = inputs[key];
 				
-			} else if(typeof(this.props.instanceItemData[key]) == 'object') {
+			} else if(this.props.instanceItemData[key] && typeof(this.props.instanceItemData[key]) == 'object') {
 			
 				// no edit mode, type - plural
 				cell = [];
