@@ -1,0 +1,21 @@
+form {
+	display: flex;
+	flex-direction: column;
+	input {
+		height: 36px;
+		border: none;
+		&[type="text"], &[type="password"] {
+			padding: 0 6px;
+			margin-top: 4px;
+			box-shadow: 0 -1px 0 0 #dedede inset;
+		}
+		&[type="submit"] {
+			padding: 0 14px;
+			border-radius: 2px;
+			background: #91d579;
+			color: #fff;
+			align-self: flex-end;
+			min-width: 100px;
+		}
+	}
+}
