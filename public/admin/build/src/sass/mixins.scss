@@ -1,0 +1,67 @@
+.form-title {
+	font-size: 22px;
+	text-align: center;
+	margin-bottom: 12px;
+}
+.sub-heading {
+	display: block;
+	color: var(--color-blue);
+	font-size: 18px;
+}
+table {
+	width: 1000px;
+	box-shadow: 0 0 0 1px var(--color-box-shadow-gray-dark);
+	> tbody {
+		> tr {
+			--background-color: var(--color-gray);
+			background-color: var(--background-color);
+			&:hover {
+				--background-color: var(--color-bg-gray);
+			}
+			&:nth-of-type(n+2) {
+				box-shadow: 0 1px var(--color-box-shadow-gray-dark) inset;
+			}
+			> td {
+				position: relative;
+				padding: 10px;
+				min-width: 22px;
+				> input {
+					margin: 0;
+					position: absolute;
+					top: calc(50% - 7px);
+					left: calc(50% - 7px);
+					height: 14px;
+					width: 14px;
+				}
+				.path-item {
+					cursor: pointer;
+					&.type-d {
+						color: var(--color-blue);
+					}
+					&.type-f {
+						color: var(--color-text-dark-gray);
+					}
+				}
+				button {
+					&:nth-of-type(n+2) {
+						margin-left: 12px;
+					}
+				}
+			}
+		}
+	}
+	> thead {
+		background-color: #f2f2f2;
+		box-shadow: 0 -1px var(--color-box-shadow-gray-dark) inset, 0 0 3px var(--color-box-shadow-gray-dark);
+		> tr {
+			> td {
+				position: relative;
+				padding: 10px;
+				min-width: 22px;
+			}
+		}
+	}
+}
+.instance-control-buttons {
+	margin-top: 20px;
+}

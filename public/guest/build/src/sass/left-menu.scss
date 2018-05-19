@@ -2,12 +2,12 @@ menu.left-menu {
 	display: block;
 	height: fit-content;
 	padding: 10px;
-	background-color: #fff;
+	background-color: var(--color-white);
 	border-radius: 4px;
-	box-shadow: 0 0 0 1px #dedede inset;
+	box-shadow: 0 0 0 1px var(--color-box-shadow-gray) inset;
 	a {
 		--color: #242628;
-		--background-color: #fafafa;
+		--background-color: var(--color-gray);
 		--height: 32px;
 		position: relative;
 		display: block;
@@ -22,7 +22,7 @@ menu.left-menu {
 		cursor: pointer;
 		&:hover {
 			--color: #666666;
-			--background-color: #e8e8e8;
+			--background-color: var(--color-dark-gray);
 		}
 		&:nth-of-type(n+2) {
 			margin-top: 10px;

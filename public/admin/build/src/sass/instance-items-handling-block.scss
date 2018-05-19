@@ -1,0 +1,15 @@
+#instance-items-handling-block {
+	> div {
+		> div {
+			select {
+				display: inline-block;
+			}
+			select + button {
+				margin-left: 12px;
+			}
+			table {
+				margin-top: 20px;
+			}
+		}
+	}
+}

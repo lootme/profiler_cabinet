@@ -16,11 +16,11 @@
 		transition-duration: .4s;
 		&:hover {
 			--box-shadow-color: transparent;
-			--color: #91d579;
+			--color: var(--color-green);
 		}
 		&:not(:hover) {
-			--box-shadow-color: #91d579;
-			--color: #fff;
+			--box-shadow-color: var(--color-green);
+			--color: var(--color-white);
 		}
 		&:nth-of-type(n+2) {
 			margin-left: 40px;
