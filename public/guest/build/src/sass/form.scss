@@ -7,14 +7,14 @@ form {
 		&[type="text"], &[type="password"] {
 			padding: 0 6px;
 			margin-top: 4px;
-			box-shadow: 0 -1px 0 0 #dedede inset;
+			box-shadow: 0 -1px 0 0 var(--color-box-shadow-gray) inset;
 		}
 		&[type="submit"] {
 			--box-shadow-color: transparent;
 			padding: 0 14px;
 			border-radius: 2px;
-			background: #91d579;
-			color: #fff;
+			background: var(--color-green);
+			color: var(--color-white);
 			align-self: flex-end;
 			min-width: 100px;
 			box-shadow: 0 0 0 1px var(--box-shadow-color);
@@ -22,7 +22,7 @@ form {
 			transition-duration: .4s;
 			cursor: pointer;
 			&:hover {
-				--box-shadow-color: #e8e8e8;
+				--box-shadow-color: var(--color-dark-gray);
 			}
 		}
 	}

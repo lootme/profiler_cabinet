@@ -1,0 +1,11 @@
+.administrative-tools-page {
+	a {
+		--color: var(--color-blue);
+		line-height: 22px;
+		font-size: 18px;
+		color: var(--color);
+		&:hover {
+			color: #085392;
+		}
+	}
+}
