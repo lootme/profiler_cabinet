@@ -3,7 +3,7 @@ var User = cms.getModel('User'),
 	helper = cms.useModule('helper');
 module.exports = {
 	getItems : (params, onResultReady) => {
-		
+
 		if(!auth.check("USERS_VIEW"))
 			return onResultReady({});
 		

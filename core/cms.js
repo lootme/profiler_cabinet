@@ -22,15 +22,21 @@ module.exports = (config) => {
 		currentUrl,
 		redirectPath = false,
 		pageError = '',
-		stubs = [];
+		stubs = [],
+		allowRedirects;
 		
 	return {
 		init : (requestResponseData) => {
+			
+			allowRedirects = true;
 		
 			// intercepting API calls
 			if(requestResponseData.pathname.match('^\/api\/') != null)
 			{
 				console.log('API call recieved.');
+				
+				allowRedirects = false;
+				
 				return cms.manageAPICall(
 					requestResponseData.pathname,
 					requestResponseData.request,
@@ -42,6 +48,16 @@ module.exports = (config) => {
 				if(requestResponseData.pathname.match('^\/' + name + '\/') != null) {
 					siteSectionName = name;
 					break;
+				}
+			}
+
+			// check section permissions
+			var sectionPermissions = config.site_sections[siteSectionName].permissions;
+			if(sectionPermissions && sectionPermissions.length) {
+				for(var i in sectionPermissions) {
+					if(!auth.check(sectionPermissions[i])) {
+						return cms.outputHtml(requestResponseData.response, 'Not enough permissions to view this section');
+					}
 				}
 			}
 			
@@ -298,16 +314,33 @@ module.exports = (config) => {
 			if(blocks.length) {
 				var blocksProcessedCount = 0,
 					exited = false,
-					helper = cms.useModule('helper');
+					helper = cms.useModule('helper'),
+					currentBlock = 0;
 					
 				blocks.forEach(block => {
+					
+					currentBlock++;
+
+					// check block permissions
+					if(helper.defined(block.params, 'permissions')) {
+						for(var i in block.params.permissions) {
+							if(!auth.check(block.params.permissions[i])) {
+								blocksProcessedCount++;
+								html = html.replace(block.placeholder, 'Not enough permissions to render block \'' + block.name + '\'');
+								if(currentBlock == blocks.length) {
+									onAllBlocksRendered(html);
+								}
+								return;
+							}
+						}
+					}
 
 					var blockPath = './blocks/' + block.name,
 						blockModule = require('.' + blockPath + '/module.js'),
 						pugOptions = { pretty: true };
 								
 					blockModule.create(block.params, function(data){
-					
+			
 						if(false === data) {
 							return onAllBlocksRendered('');
 						}
@@ -438,7 +471,7 @@ module.exports = (config) => {
 		},
 			
 		outputHtml : (response, html, status) => {
-			if(redirectPath) {
+			if(allowRedirects && redirectPath) {
 				response.writeHead(303, { Location : redirectPath });
 				response.end();
 			} else if(pageError && config.showErrorsManually !== true) {
@@ -457,12 +490,16 @@ module.exports = (config) => {
 		},
 		
 		outputJson : (response, json, status) => {
-			if(redirectPath) {
+			if(allowRedirects && redirectPath) {
 				response.writeHead(303, { Location : redirectPath });
 				response.end();
 			} else {
 				if(!status)
 					var status = 200;
+				if(pageError) {
+					console.log(pageError);
+					json.error = pageError;
+				}
 				response.writeHead(status, {'Content-Type': 'application/json'});
 				response.write(JSON.stringify(json));
 				response.end();

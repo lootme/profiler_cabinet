@@ -49,7 +49,8 @@ class InstanceItemAdd extends React.Component {
 				enumValues = this.props.fields[key].values,
 				label = this.props.fields[key].label ? this.props.fields[key].label : code,
 				placeholder = "Enter " + label,
-				isPlural = this.props.fields[key].plural;
+				isPlural = this.props.fields[key].plural,
+				isHidden = this.props.fields[key].hide;
 				
 				
 			

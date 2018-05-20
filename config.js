@@ -14,6 +14,13 @@ var config = {
 			jsBundleFileName : 'app.bundled.js',
 			cssBundleFileName : 'app.bundled.css',
 		},
+		cabinet : {
+			/**/templateName : 'first-template',
+			bundleDir : './public/cabinet/build',
+			jsBundleFileName : 'app.bundled.js',
+			cssBundleFileName : 'app.bundled.css',
+			permissions: ['ENTER_CABINET']
+		},
 	},
 	
 	/**/dbHost: 'db',

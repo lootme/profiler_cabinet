@@ -106,19 +106,36 @@ module.exports = (app) => {
 			});
 		},
 		
-		check : (actionCode) => {
+		check : (actionCode, noError) => {
 
-			var user = auth.get();
+			var user = auth.get(),
+				noError = noError || false;
 			
+			if(!actionCode && !user){
+				
+				if(!noError) {
+					// show error
+					cms.setPageError('Please <a href="/auth/">authorize</a> to view this content!');
+				}
+				return false;
+			}
+
 			if(user && user.actions){
 				if(user.actions.indexOf(actionCode) < 0) {
-					// show error
-					cms.setPageError('Not enough permissions (' + actionCode + ') to perform operation!');
+					if(!noError) {
+						// show error
+						cms.setPageError('Not enough permissions (' + actionCode + ') to perform operation!');
+					}
 					return false;
 				}
 			} else {
-				// redirect
-				cms.setRedirectPath(authPage);
+				if(!noError) {
+					// redirect
+					 // important to set error for cases when redirects are not allowed
+					cms.setPageError('Not enough permissions to perform operation!');
+					
+					cms.setRedirectPath(authPage);
+				}
 				return false;
 			}
 			
