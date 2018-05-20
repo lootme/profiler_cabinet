@@ -12,11 +12,15 @@ var _instanceItems = [],
 
 function loadInstanceItems(data, callback) {
 	fetch('/api/' + InstanceItemsStore.instanceName + '/get_items/', {
-		method: 'post',
+		method: 'post',credentials: 'include',
 		body: 'sortBy=' + _sortField + '&orderBy=' + _sortOrder + '&onlyRaw=y'
 	})
 	.then(function(response) {
-		return response.json();
+		response = response.json();
+		if(response.error) {
+			alert(response.error); // !!!!!!!!!!!!!!!!! not working
+		}
+		return response;
 	})
 	.then(function(data) {
 		_instanceItems = data;
@@ -38,7 +42,7 @@ function addInstanceItem(data, callback) {
 		}
 	});
 	fetch('/api/' + InstanceItemsStore.instanceName + '/add_item/', {
-		method: 'post',
+		method: 'post',credentials: 'include',
 		body: form
 	})
 	.then(function(response) {
@@ -70,7 +74,7 @@ function deleteSelected(callback) {
 		form.append('selectedItems', _selectedItems[i]);
 	}
 	fetch('/api/' + InstanceItemsStore.instanceName + '/delete_items/', {
-		method: 'post',
+		method: 'post',credentials: 'include',
 		body: form
 	})
 	.then(function(response) {
@@ -132,7 +136,7 @@ function updateEditing(callback) {
 	});
 	
 	fetch('/api/' + InstanceItemsStore.instanceName + '/update_item/', {
-		method: 'post',
+		method: 'post',credentials: 'include',
 		body: form
 	})
 	.then(function(response) {

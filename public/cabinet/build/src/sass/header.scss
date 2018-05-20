@@ -1,0 +1,50 @@
+.header {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	height:  var(--header-height);
+	background-color: #0e6ebe;
+	logo {
+		width: 140px;
+		height: 140px;
+		background-image: url("/public/guest/build/src/images/MPC.png");
+		background-size: cover;
+	}
+	section {
+		display: flex;
+		align-items: center;
+		flex-grow: 1;
+		width: 1200px;
+		menu {
+
+		}
+		a.login {
+			margin-left: auto;
+			display: flex;
+			align-items: center;
+			width: 100px;
+			icon {
+				--icon__size: 20px;
+				--icon__color: #91d579;
+				--data: url("/public/guest/build/src/images/lock.svg");
+			}
+			span {
+				--height: 24px;
+				color: var(--color);
+				height: var(--height);
+				margin-left: 8px;
+				line-height: var(--height);
+				font-size: 15px;
+				transition-property: color;
+				transition-duration: .4s;
+				cursor: pointer;
+				&:hover {
+					--color: #91d579;
+				}
+				&:not(:hover) {
+					--color: #fff;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,29 @@
+.header-menu {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+	a {
+		--height: 24px;
+		color: var(--color);
+		text-transform: uppercase;
+		letter-spacing: 1.2px;
+		height: var(--height);
+		line-height: var(--height);
+		font-size: 15px;
+		box-shadow: 0px 1px var(--box-shadow-color);
+		cursor: pointer;
+		transition-property: color, box-shadow;
+		transition-duration: .4s;
+		&:hover {
+			--box-shadow-color: transparent;
+			--color: #91d579;
+		}
+		&:not(:hover) {
+			--box-shadow-color: #91d579;
+			--color: #fff;
+		}
+		&:nth-of-type(n+2) {
+			margin-left: 40px;
+		}
+	}
+}
