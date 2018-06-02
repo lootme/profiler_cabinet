@@ -49,7 +49,7 @@ function addInstanceItem(data, callback) {
 		return;
 	})
 	.then(function() {
-		loadInstanceItems(false, callback);
+		loadInstanceItems(false, callback); // TODO: disable loading items if block option add_mode is true
 	});
 }
 

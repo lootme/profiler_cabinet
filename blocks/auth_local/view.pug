@@ -10,6 +10,8 @@ section.form-border
 			input(name='psswd' value='' type='password' placeholder='Enter your password')
 			br
 			input(name='login_submit' value='Log In' type='submit')
+			br
+			div Not registered yet? Please sign up #[a( href='/registration/' ) here]
 		else
 			p You entered successfully. Your login: #{data.user.name}
 			br

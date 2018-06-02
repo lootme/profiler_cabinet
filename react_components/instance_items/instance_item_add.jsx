@@ -60,7 +60,7 @@ class InstanceItemAdd extends React.Component {
 				if(isPlural) {
 					// checkboxes
 					return(
-						<div className="form-instance-add-field">
+						<div className="form-instance-add-field" data-hidden={isHidden}>
 							{
 								enumValues.map((enumValue) => {
 									var checked = this.state[code] && this.state[code].indexOf(enumValue.value) >= 0 ? "checked" : false;
@@ -82,7 +82,7 @@ class InstanceItemAdd extends React.Component {
 						return <option value={enumValues[key].value} selected={selected}>{enumValues[key].name}</option>
 					});
 					return (
-						<div className="form-instance-add-field">
+						<div className="form-instance-add-field" data-hidden={isHidden}>
 							<select name={code} onChange={ (e) => this.setState({ [e.target.name] : e.target.value }) }>
 								<option value="">Select {code}</option>
 								{options}
@@ -95,7 +95,7 @@ class InstanceItemAdd extends React.Component {
 			
 				// string type
 				return (
-					<div className="form-instance-add-field">
+					<div className="form-instance-add-field" data-hidden={isHidden}>
 						<label>{label}</label>
 						<input type="text" name={code} className="form-instance-add-field" onChange={ (e) => this.setState({ [e.target.name]: e.target.value }) } placeholder={placeholder} value={this.state[code]} />
 					</div>

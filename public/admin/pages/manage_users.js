@@ -5,7 +5,7 @@ module.exports = (data, onLogicProcessed) => {
 	data.instanceManagmentSettings = {
 		name : 'user',
 		title : 'Users',
-		add_fields_settings : {
+		fields_settings : {
 			password_hash : {
 				label : 'password'
 			},
@@ -13,7 +13,7 @@ module.exports = (data, onLogicProcessed) => {
 				default_value : helper.generateApiKey()
 			}
 		},
-		permissions : ['USERS_ADD', 'USERS_VIEW', 'USERS_DEL']
+		permissions : ['USERS_VIEW', 'USERS_DEL']
 	};
 
 	onLogicProcessed(data);

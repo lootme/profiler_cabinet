@@ -60,7 +60,8 @@ class InstanceItems extends React.Component {
 	}
 	
 	render() {
-		if(this.state.instanceItems.length) {
+		var isHidden = false;
+		if(!this.props.data.addMode && this.state.instanceItems.length) {
 			var instanceItems = Object.keys(this.state.instanceItems).map((key, index) => {
 				var editingData = this.state.editingData &&
 										this.state.editingData.id == this.state.instanceItems[key].id ? 
@@ -68,40 +69,54 @@ class InstanceItems extends React.Component {
 				return <InstanceItem key={index} instanceItemData={this.state.instanceItems[key]} fields={this.props.data.fields} editingData={editingData} />
 			});
 			var headers = Object.keys(this.state.instanceItems[0]).map((key, index) => {
+				this.props.data.fields.forEach((field) => { // each field
+					if(field.code == key && field.hide) {
+							isHidden = true;
+					}
+				});
+				if(isHidden) {
+					return;
+				}
+				
 				return <td>{key}</td>
 			});
 		}
-		return (
-			<div>
-				<h2 className="sub-heading">List of {this.props.data.title} here!</h2>
-				{<InstanceItemAdd fields={this.props.data.fields} />}
-				{this.state.instanceItems.length ? (
-					<div>
-						<select onChange={this.selectSortingOrder}>
-							<option value=''>Select sorting order</option>
-							<option value='name-asc'>Name ascending</option>
-							<option value='name-desc'>Name descending</option>
-						</select>
-						<button onClick={this.sort}>Sort by {this.state.order}</button>
-						<table>
-							<thead>
-								<tr>
-									<td></td>
-									{headers}
-									<td></td>
-								</tr>
-							</thead>
-							<tbody>
-							{instanceItems}
-							</tbody>
-						</table>
-						<InstanceItemsButtons />
-					</div>
-				) : (
-					<div>{this.props.data.title} are not found!</div>
-				)}
-			</div>
-		)
+		
+		if(this.props.data.addMode) {
+			return <InstanceItemAdd fields={this.props.data.fields} />
+		} else {
+			return (
+				<div>
+					<h2 className="sub-heading">List of {this.props.data.title} here!</h2>
+					{<InstanceItemAdd fields={this.props.data.fields} />}
+					{this.state.instanceItems ? (
+						<div>
+							<select onChange={this.selectSortingOrder}>
+								<option value=''>Select sorting order</option>
+								<option value='name-asc'>Name ascending</option>
+								<option value='name-desc'>Name descending</option>
+							</select>
+							<button onClick={this.sort}>Sort by {this.state.order}</button>
+							<table>
+								<thead>
+									<tr>
+										<td></td>
+										{headers}
+										<td></td>
+									</tr>
+								</thead>
+								<tbody>
+								{instanceItems}
+								</tbody>
+							</table>
+							<InstanceItemsButtons />
+						</div>
+					) : (
+						<div>{this.props.data.title} are not found!</div>
+					)}
+				</div>
+			)
+		}
 	}
 	
 }

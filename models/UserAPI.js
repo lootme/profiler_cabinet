@@ -100,8 +100,8 @@ module.exports = {
 	
 	addItem : (itemSrc, callback) => {
 		console.log('itemSrc is', itemSrc);
-		if(!auth.check("USERS_ADD"))
-			return callback({ success: false });
+		/*if(!auth.check("USERS_ADD"))
+			return callback({ success: false });*/
 		
 		var User = cms.getModel('User');
 		auth.encrypt(itemSrc.password_hash, (hash)=>{

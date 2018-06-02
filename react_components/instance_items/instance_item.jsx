@@ -35,7 +35,12 @@ class InstanceItem extends React.Component {
 					enumValues = this.props.fields[key].values,
 					placeholder = "Enter " + code,
 					editingValue = this.props.editingData[code],
-					isPlural = this.props.fields[key].plural;
+					isPlural = this.props.fields[key].plural,
+					isHidden = this.props.fields[key].hide;
+					
+				if(isHidden) {
+					return;
+				}
 					
 				if(enumValues) {
 				
@@ -85,7 +90,18 @@ class InstanceItem extends React.Component {
 			});
 		}
 		var cells = Object.keys(this.props.instanceItemData).map((key, index) => { // each property
-			var cell;
+			var cell,
+				isHidden = false;
+				
+			this.props.fields.forEach((field) => { // each field
+				if(field.code == key && field.hide) {
+						isHidden = true;
+				}
+			});
+			if(isHidden) {
+				return;
+			}
+			
 			if(this.props.editingData && inputs[key]) {
 			
 				// edit mode

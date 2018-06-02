@@ -27,7 +27,7 @@ module.exports = {
 				onResultReady({
 					id: project.dataValues.id,
 					name: project.dataValues.name,
-					user: project.dataValues.UserId,
+					UserId: project.dataValues.UserId,
 					createdAt: helper.formatDate(project.dataValues.createdAt.toString(), true),
 					updatedAt: helper.formatDate(project.dataValues.updatedAt.toString(), true)
 				});
@@ -48,7 +48,7 @@ module.exports = {
 				result.push({
 					id: project.dataValues.id,
 					name: project.dataValues.name,
-					user: project.dataValues.UserId,
+					UserId: project.dataValues.UserId,
 					createdAt: helper.formatDate(project.dataValues.createdAt.toString(), true),
 					updatedAt: helper.formatDate(project.dataValues.updatedAt.toString(), true)
 				});
