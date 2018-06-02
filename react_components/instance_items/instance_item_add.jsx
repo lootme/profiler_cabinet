@@ -6,13 +6,16 @@ class InstanceItemAdd extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-		
+
 		Object.keys(props.fields).map((key, index) => {
-			var isPlural = this.props.fields[key].plural,
-				defaultValue = this.props.fields[key].default_value;
-			this.state[props.fields[key].code] = defaultValue ? defaultValue : (isPlural ? [] : '');
+			if(this.props.fields[key]) {
+				var isPlural = this.props.fields[key].plural,
+					defaultValue = this.props.fields[key].default_value;
+				this.state[props.fields[key].code] = defaultValue ? defaultValue : (isPlural ? [] : '');
+			} else {
+				delete this.props.fields[key];
+			}
 		});
-		
 		this.add = this.add.bind(this);
 		this.handlePluralOption = this.handlePluralOption.bind(this);
 	}
@@ -51,8 +54,6 @@ class InstanceItemAdd extends React.Component {
 				placeholder = "Enter " + label,
 				isPlural = this.props.fields[key].plural,
 				isHidden = this.props.fields[key].hide;
-				
-				
 			
 			if(enumValues) {
 			

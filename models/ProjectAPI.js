@@ -112,6 +112,20 @@ module.exports = {
 		});
 	},
 	
+	addItemRemote : (itemSrc, callback) => {
+		console.log('addItemRemote called!!!', itemSrc);
+		
+		var Project = cms.getModel('Project'),
+			projectUserId = itemSrc.UserId
+		Project.create({
+			name: itemSrc.name,
+			UserId: itemSrc.userId
+		})
+		.then(function(){
+			callback({ success: true });
+		});
+	},
+	
 	deleteItems : (params, callback) => {
 		
 		var authUser = false;

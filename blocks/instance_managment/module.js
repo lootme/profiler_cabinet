@@ -10,7 +10,7 @@ module.exports = {
 			
 			
 			cms.call(params.name, 'getFields', {}, function(instanceFields) {
-				
+
 				if(helper.defined(params, 'fields_settings')) {
 					Object.keys(instanceFields).map((key, index) => {
 						fieldParams = params.fields_settings[instanceFields[key].code];
@@ -18,10 +18,14 @@ module.exports = {
 							//if(fieldParams.hide) {
 							//	delete instanceFields[key];
 							//} else {
-								instanceFields[key] = helper.extend(
-									instanceFields[key],
-									fieldParams
-								);
+								if(fieldParams.remove) {
+									delete instanceFields[key];
+								} else {
+									instanceFields[key] = helper.extend(
+										instanceFields[key],
+										fieldParams
+									);
+								}
 							//}
 						}
 					});

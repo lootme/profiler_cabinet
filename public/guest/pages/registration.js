@@ -9,6 +9,10 @@ module.exports = (data, onLogicProcessed) => {
 			password_hash : {
 				label : 'password'
 			},
+			roles : {
+				default_value : [2],
+				remove : true
+			},
 			api_key : {
 				default_value : helper.generateApiKey(),
 				hide : true

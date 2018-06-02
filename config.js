@@ -32,5 +32,8 @@ var config = {
 	
 	// next line for showing cms errors manually anywhere on the site
 	showErrorsManually: true,
+	
+	// default roles for just registered users
+	regRoles: [2],
 };
 module.exports = config;

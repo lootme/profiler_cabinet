@@ -103,7 +103,8 @@ module.exports = {
 		/*if(!auth.check("USERS_ADD"))
 			return callback({ success: false });*/
 		
-		var User = cms.getModel('User');
+		var User = cms.getModel('User'),
+			config = cms.getConfig();
 		auth.encrypt(itemSrc.password_hash, (hash)=>{
 			User.create({
 				username: itemSrc.username,
@@ -112,8 +113,14 @@ module.exports = {
 				last_name: itemSrc.last_name,
 				api_key: itemSrc.api_key,
 			})
-			.then(function(){
-				callback({ success: true });
+			.then(function(user){
+				if(config.regRoles) {
+					cms.call('user', 'set_user_roles', { id : user.dataValues.id, roles : config.regRoles }, function(result){
+						callback({ success: true });
+					});
+				} else {
+					callback({ success: true });
+				}
 			});
 		});
 	},
