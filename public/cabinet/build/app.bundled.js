@@ -21745,7 +21745,12 @@ var InstanceItem = function (_React$Component) {
 					    enumValues = _this2.props.fields[key].values,
 					    placeholder = "Enter " + code,
 					    editingValue = _this2.props.editingData[code],
-					    isPlural = _this2.props.fields[key].plural;
+					    isPlural = _this2.props.fields[key].plural,
+					    isHidden = _this2.props.fields[key].hide;
+
+					if (isHidden) {
+						return;
+					}
 
 					if (enumValues) {
 
@@ -21801,7 +21806,19 @@ var InstanceItem = function (_React$Component) {
 			}
 			var cells = Object.keys(this.props.instanceItemData).map(function (key, index) {
 				// each property
-				var cell;
+				var cell,
+				    isHidden = false;
+
+				_this2.props.fields.forEach(function (field) {
+					// each field
+					if (field.code == key && field.hide) {
+						isHidden = true;
+					}
+				});
+				if (isHidden) {
+					return;
+				}
+
 				if (_this2.props.editingData && inputs[key]) {
 
 					// edit mode
@@ -21888,11 +21905,14 @@ var InstanceItemAdd = function (_React$Component) {
 		_this.state = {};
 
 		Object.keys(props.fields).map(function (key, index) {
-			var isPlural = _this.props.fields[key].plural,
-			    defaultValue = _this.props.fields[key].default_value;
-			_this.state[props.fields[key].code] = defaultValue ? defaultValue : isPlural ? [] : '';
+			if (_this.props.fields[key]) {
+				var isPlural = _this.props.fields[key].plural,
+				    defaultValue = _this.props.fields[key].default_value;
+				_this.state[props.fields[key].code] = defaultValue ? defaultValue : isPlural ? [] : '';
+			} else {
+				delete _this.props.fields[key];
+			}
 		});
-
 		_this.add = _this.add.bind(_this);
 		_this.handlePluralOption = _this.handlePluralOption.bind(_this);
 		return _this;
@@ -21906,7 +21926,7 @@ var InstanceItemAdd = function (_React$Component) {
 		value: function add(e) {
 			e.preventDefault();
 
-			InstanceItemsActions.addInstanceItem(this.state);
+			InstanceItemsActions.addInstanceItem({ state: this.state, props: this.props });
 		}
 	}, {
 		key: 'handlePluralOption',
@@ -21935,7 +21955,8 @@ var InstanceItemAdd = function (_React$Component) {
 				    enumValues = _this2.props.fields[key].values,
 				    label = _this2.props.fields[key].label ? _this2.props.fields[key].label : code,
 				    placeholder = "Enter " + label,
-				    isPlural = _this2.props.fields[key].plural;
+				    isPlural = _this2.props.fields[key].plural,
+				    isHidden = _this2.props.fields[key].hide;
 
 				if (enumValues) {
 
@@ -21944,7 +21965,7 @@ var InstanceItemAdd = function (_React$Component) {
 						// checkboxes
 						return React.createElement(
 							'div',
-							{ className: 'form-instance-add-field' },
+							{ className: 'form-instance-add-field', 'data-hidden': isHidden },
 							enumValues.map(function (enumValue) {
 								var checked = _this2.state[code] && _this2.state[code].indexOf(enumValue.value) >= 0 ? "checked" : false;
 
@@ -21972,7 +21993,7 @@ var InstanceItemAdd = function (_React$Component) {
 						});
 						return React.createElement(
 							'div',
-							{ className: 'form-instance-add-field' },
+							{ className: 'form-instance-add-field', 'data-hidden': isHidden },
 							React.createElement(
 								'select',
 								{ name: code, onChange: function onChange(e) {
@@ -21993,7 +22014,7 @@ var InstanceItemAdd = function (_React$Component) {
 					// string type
 					return React.createElement(
 						'div',
-						{ className: 'form-instance-add-field' },
+						{ className: 'form-instance-add-field', 'data-hidden': isHidden },
 						React.createElement(
 							'label',
 							null,
@@ -22106,12 +22127,23 @@ var InstanceItems = function (_React$Component) {
 		value: function render() {
 			var _this2 = this;
 
-			if (this.state.instanceItems.length) {
+			var isHidden = false;
+			if (!this.props.data.addMode && this.state.instanceItems.length) {
 				var instanceItems = Object.keys(this.state.instanceItems).map(function (key, index) {
 					var editingData = _this2.state.editingData && _this2.state.editingData.id == _this2.state.instanceItems[key].id ? _this2.state.editingData : false;
 					return React.createElement(InstanceItem, { key: index, instanceItemData: _this2.state.instanceItems[key], fields: _this2.props.data.fields, editingData: editingData });
 				});
 				var headers = Object.keys(this.state.instanceItems[0]).map(function (key, index) {
+					_this2.props.data.fields.forEach(function (field) {
+						// each field
+						if (field.code == key && field.hide) {
+							isHidden = true;
+						}
+					});
+					if (isHidden) {
+						return;
+					}
+
 					return React.createElement(
 						"td",
 						null,
@@ -22119,73 +22151,79 @@ var InstanceItems = function (_React$Component) {
 					);
 				});
 			}
-			return React.createElement(
-				"div",
-				null,
-				React.createElement(
-					"h2",
-					{ className: "sub-heading" },
-					"List of ",
-					this.props.data.title,
-					" here!"
-				),
-				React.createElement(InstanceItemAdd, { fields: this.props.data.fields }),
-				this.state.instanceItems.length ? React.createElement(
+
+			if (this.props.data.addMode) {
+				return React.createElement(InstanceItemAdd, { fields: this.props.data.fields });
+			} else {
+				return React.createElement(
 					"div",
 					null,
 					React.createElement(
-						"select",
-						{ onChange: this.selectSortingOrder },
-						React.createElement(
-							"option",
-							{ value: "" },
-							"Select sorting order"
-						),
-						React.createElement(
-							"option",
-							{ value: "name-asc" },
-							"Name ascending"
-						),
-						React.createElement(
-							"option",
-							{ value: "name-desc" },
-							"Name descending"
-						)
+						"h2",
+						{ className: "sub-heading" },
+						"List of ",
+						this.props.data.title,
+						" here!"
 					),
-					React.createElement(
-						"button",
-						{ onClick: this.sort },
-						"Sort by ",
-						this.state.order
-					),
-					React.createElement(
-						"table",
+					React.createElement("div", { "class": "errors-holder" }),
+					React.createElement(InstanceItemAdd, { fields: this.props.data.fields }),
+					this.state.instanceItems ? React.createElement(
+						"div",
 						null,
 						React.createElement(
-							"thead",
-							null,
+							"select",
+							{ onChange: this.selectSortingOrder },
 							React.createElement(
-								"tr",
-								null,
-								React.createElement("td", null),
-								headers,
-								React.createElement("td", null)
+								"option",
+								{ value: "" },
+								"Select sorting order"
+							),
+							React.createElement(
+								"option",
+								{ value: "name-asc" },
+								"Name ascending"
+							),
+							React.createElement(
+								"option",
+								{ value: "name-desc" },
+								"Name descending"
 							)
 						),
 						React.createElement(
-							"tbody",
+							"button",
+							{ onClick: this.sort },
+							"Sort by ",
+							this.state.order
+						),
+						React.createElement(
+							"table",
 							null,
-							instanceItems
-						)
-					),
-					React.createElement(InstanceItemsButtons, null)
-				) : React.createElement(
-					"div",
-					null,
-					this.props.data.title,
-					" are not found!"
-				)
-			);
+							React.createElement(
+								"thead",
+								null,
+								React.createElement(
+									"tr",
+									null,
+									React.createElement("td", null),
+									headers,
+									React.createElement("td", null)
+								)
+							),
+							React.createElement(
+								"tbody",
+								null,
+								instanceItems
+							)
+						),
+						React.createElement(InstanceItemsButtons, null)
+					) : React.createElement(
+						"div",
+						null,
+						this.props.data.title,
+						" are not found!"
+					)
+				);
+			}
 		}
 	}]);
 
@@ -22264,13 +22302,15 @@ function loadInstanceItems(data, callback) {
 		method: 'post', credentials: 'include',
 		body: 'sortBy=' + _sortField + '&orderBy=' + _sortOrder + '&onlyRaw=y'
 	}).then(function (response) {
-		response = response.json();
+		return response.json();
+	}).then(function (response) {
+		console.log('loadInstanceItems response:', response);
+
 		if (response.error) {
-			alert(response.error); // !!!!!!!!!!!!!!!!! not working
+			document.getElementsByClassName('errors-holder')[0].innerHTML = response.error;
+		} else {
+			_instanceItems = response;
 		}
-		return response;
-	}).then(function (data) {
-		_instanceItems = data;
 
 		callback();
 	});
@@ -22279,22 +22319,33 @@ function loadInstanceItems(data, callback) {
 function addInstanceItem(data, callback) {
 	var form = new FormData();
 
-	Object.keys(data).map(function (key, index) {
-		if (_typeof(data[key]) == 'object') {
-			for (var i in data[key]) {
-				form.append(key, data[key][i]);
+	Object.keys(data.state).map(function (key, index) {
+		if (_typeof(data.state[key]) == 'object') {
+			for (var i in data.state[key]) {
+				form.append(key, data.state[key][i]);
 			}
 		} else {
-			form.append(key, data[key]);
+			form.append(key, data.state[key]);
 		}
 	});
 	fetch('/api/' + InstanceItemsStore.instanceName + '/add_item/', {
 		method: 'post', credentials: 'include',
 		body: form
 	}).then(function (response) {
-		return;
-	}).then(function () {
-		loadInstanceItems(false, callback);
+		return response.json();
+	}).then(function (response) {
+		console.log('addInstanceItem response:', response);
+
+		if (response.error) {
+			document.getElementsByClassName('errors-holder')[0].innerHTML = response.error;
+		} else {
+			if (data.addCallback) {
+				if (false === data.addCallback()) {
+					return;
+				}
+			}
+			loadInstanceItems(false, callback); // TODO: disable loading items if block option add_mode is true
+		}
 	});
 }
 

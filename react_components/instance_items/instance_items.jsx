@@ -88,6 +88,7 @@ class InstanceItems extends React.Component {
 			return (
 				<div>
 					<h2 className="sub-heading">List of {this.props.data.title} here!</h2>
+					<div class="errors-holder"></div>
 					{<InstanceItemAdd fields={this.props.data.fields} />}
 					{this.state.instanceItems ? (
 						<div>

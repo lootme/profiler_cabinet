@@ -90,8 +90,11 @@ module.exports = (config) => {
 			});
 		},
 		
-		useModule : (name) => {
-			return require('./' + name);
+		useModule : (name, init, params) => {
+			var init = init || false,
+				params = params || false,
+				module = require('./' + name);
+			return !init ? module : (params ? module(params) : module());
 		},
 		
 		getTemplatePath : () => {
@@ -500,6 +503,7 @@ module.exports = (config) => {
 					console.log(pageError);
 					json.error = pageError;
 				}
+				console.log('sending json:', json);
 				response.writeHead(status, {'Content-Type': 'application/json'});
 				response.write(JSON.stringify(json));
 				response.end();

@@ -58,7 +58,6 @@ function run(pathname, request, response, next) {
 console.log('Application start point reached.');
 
 app.use(function onRequest(request, response, next) {
-	
 	var pathname = url.parse(request.url).pathname,
 		urlParts = url.parse(request.url, true),
 		contentType = request.headers['content-type'];
@@ -66,7 +65,7 @@ app.use(function onRequest(request, response, next) {
 	console.log('Request for ' + pathname + ' received.');
 
 	request.get = urlParts.query;
-	console.log("AUTH1:", request.isAuthenticated(), request.user);
+	//console.log("AUTH1:", request.isAuthenticated(), request.user);
 	if(contentType && contentType.indexOf('multipart/form-data') >= 0) {
 		console.log('Request type is multipart/form-data');
 		var form = new multiparty.Form();
@@ -90,7 +89,7 @@ app.use(function onRequest(request, response, next) {
 		return;
 	}
 	
-	console.log("AUTH2:", request.isAuthenticated(), request.user);
+	//console.log("AUTH2:", request.isAuthenticated(), request.user);
 	
 	var postData = '';
 	request.setEncoding('utf8');

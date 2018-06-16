@@ -1,0 +1,8 @@
+if(!data.user)
+	a.login(href="/auth/") 
+		icon
+		span Log In
+else
+	a.login(href="/auth/?logout=yes") 
+		icon
+		span [#{data.user.name}] Log Out

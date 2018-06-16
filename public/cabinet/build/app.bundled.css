@@ -27,6 +27,22 @@ footer.footer {
   border-radius: 2px;
   box-shadow: 0 0 0 1px #e8e8e8, 0 3px 3px #00000024; }
 
+.form-instance-add {
+  width: 400px;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px var(--color-box-shadow-gray), 0 3px 3px #00000024, 3px 0 3px #00000024; }
+  .form-instance-add > .form-instance-add-field {
+    display: flex;
+    flex-direction: column; }
+    .form-instance-add > .form-instance-add-field:nth-of-type(n+2) {
+      margin-top: 16px; }
+  .form-instance-add > input[type="submit"] {
+    margin-left: auto; }
+  .form-instance-add > [data-hidden] {
+    display: none; }
+
 form {
   display: flex;
   flex-direction: column; }

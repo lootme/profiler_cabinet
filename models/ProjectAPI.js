@@ -4,8 +4,8 @@ module.exports = {
 	getItems : (params, onResultReady) => {
 		
 		var authUser = false;
-		if(!auth.check("VIEW_PROJECTS", true)) {
-			if(!auth.check("VIEW_PROJECTS_OWN")) {
+		if(!auth.check("PROJECTS_VIEW", true)) {
+			if(!auth.check("PROJECTS_VIEW_OWN")) {
 				return onResultReady({});
 			} else {
 				authUser = auth.get();
@@ -61,8 +61,8 @@ module.exports = {
 	getInstance(params, callback) {
 		
 		var authUser = false;
-		if(!auth.check("VIEW_PROJECTS", true)) {
-			if(!auth.check("VIEW_PROJECTS_OWN")) {
+		if(!auth.check("PROJECTS_VIEW", true)) {
+			if(!auth.check("PROJECTS_VIEW_OWN")) {
 				return callback({ success : false });
 			} else {
 				authUser = auth.get();
@@ -91,18 +91,20 @@ module.exports = {
 	addItem : (itemSrc, callback) => {
 		console.log('itemSrc is', itemSrc);
 		
-		var authUser = false;
-		if(!auth.check("ADD_PROJECTS", true)) {
-			if(!auth.check("ADD_PROJECTS_OWN")) {
+		var authUser = auth.get(),
+			forceOwn = false;
+		if(!auth.check("PROJECTS_ADD", true)) {
+			if(!auth.check("PROJECTS_ADD_OWN")) {
 				return callback({ success : false });
 			} else {
-				authUser = auth.get();
+				forceOwn = true;
 			}
 		}
 		
 
 		var Project = cms.getModel('Project'),
-			projectUserId = authUser ? authUser.id : itemSrc.UserId
+			projectUserId = forceOwn ? authUser.id : (itemSrc.UserId ? itemSrc.UserId : authUser.id);
+			console.log("!!!", projectUserId, authUser, itemSrc);
 		Project.create({
 			name: itemSrc.name,
 			UserId: projectUserId
@@ -129,8 +131,8 @@ module.exports = {
 	deleteItems : (params, callback) => {
 		
 		var authUser = false;
-		if(!auth.check("DELETE_PROJECTS", true)) {
-			if(!auth.check("DELETE_PROJECTS_OWN")) {
+		if(!auth.check("PROJECTS_DELETE", true)) {
+			if(!auth.check("PROJECTS_DELETE_OWN")) {
 				return callback({ success : false });
 			} else {
 				authUser = auth.get();
@@ -181,8 +183,8 @@ module.exports = {
 	updateItem : (itemSrc, callback) => {
 		
 		var authUser = false;
-		if(!auth.check("UPDATE_PROJECTS", true)) {
-			if(!auth.check("UPDATE_PROJECTS_OWN")) {
+		if(!auth.check("PROJECTS_UPDATE", true)) {
+			if(!auth.check("PROJECTS_UPDATE_OWN")) {
 				return callback({ success : false });
 			} else {
 				authUser = auth.get();

@@ -11,6 +11,7 @@ module.exports = {
 			if(user && helper.defined(params, "get", "logout")){
 				if(params.get.logout == 'yes'){
 					auth.logout();
+					cms.setRedirectPath('/');
 					onLogicProcessed(result);
 				}
 			}

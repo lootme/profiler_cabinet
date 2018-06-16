@@ -27,7 +27,7 @@ class InstanceItemAdd extends React.Component {
 	add(e) {
 		e.preventDefault();
 
-		InstanceItemsActions.addInstanceItem(this.state);
+		InstanceItemsActions.addInstanceItem({state : this.state, props : this.props});
 	}
 	
 	handlePluralOption(e) {

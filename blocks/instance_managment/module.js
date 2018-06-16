@@ -4,10 +4,11 @@ module.exports = {
 			var result = {
 					instanceName : params.name,
 					title : params.title,
-					addMode : params.add_mode || false
+					addMode : params.add_mode || false,
+					addCallback : params.add_callback || false
 				},
 				fieldParams;
-			
+			console.log('in module!!!!!!!!!!!!!!!!!!!!!:', result);
 			
 			cms.call(params.name, 'getFields', {}, function(instanceFields) {
 

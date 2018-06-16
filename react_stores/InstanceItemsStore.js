@@ -16,14 +16,16 @@ function loadInstanceItems(data, callback) {
 		body: 'sortBy=' + _sortField + '&orderBy=' + _sortOrder + '&onlyRaw=y'
 	})
 	.then(function(response) {
-		response = response.json();
-		if(response.error) {
-			alert(response.error); // !!!!!!!!!!!!!!!!! not working
-		}
-		return response;
+		return response.json();
 	})
-	.then(function(data) {
-		_instanceItems = data;
+	.then(function(response) {
+		console.log('loadInstanceItems response:', response);
+		
+		if(response.error) {
+			document.getElementsByClassName('errors-holder')[0].innerHTML = response.error;
+		} else {
+			_instanceItems = response;
+		}
 
 		callback();
 	});
@@ -32,13 +34,13 @@ function loadInstanceItems(data, callback) {
 function addInstanceItem(data, callback) {
 	var form = new FormData();
 
-	Object.keys(data).map((key, index) => {
-		if(typeof(data[key]) == 'object') {
-			for(var i in data[key]) {
-				form.append(key, data[key][i]);
+	Object.keys(data.state).map((key, index) => {
+		if(typeof(data.state[key]) == 'object') {
+			for(var i in data.state[key]) {
+				form.append(key, data.state[key][i]);
 			}
 		} else {
-			form.append(key, data[key]);
+			form.append(key, data.state[key]);
 		}
 	});
 	fetch('/api/' + InstanceItemsStore.instanceName + '/add_item/', {
@@ -46,10 +48,21 @@ function addInstanceItem(data, callback) {
 		body: form
 	})
 	.then(function(response) {
-		return;
+		return response.json();
 	})
-	.then(function() {
-		loadInstanceItems(false, callback); // TODO: disable loading items if block option add_mode is true
+	.then(function(response) {
+		console.log('addInstanceItem response:', response);
+		
+		if(response.error) {
+			document.getElementsByClassName('errors-holder')[0].innerHTML = response.error;
+		} else {
+			if(data.addCallback) {
+				if(false === data.addCallback()) {
+					return;
+				}
+			}
+			loadInstanceItems(false, callback); // TODO: disable loading items if block option add_mode is true
+		}
 	});
 }
 

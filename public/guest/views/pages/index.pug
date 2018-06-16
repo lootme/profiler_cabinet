@@ -1,0 +1,14 @@
+h1.heading Profiler Cabinet
+br
+br
+h2 Welcome to profiler cabinet.
+br
+p
+	| This is online tool for collecting profiler data
+	| and analyzing it.
+br
+if(!data.user)
+	p
+		| Please #[a( href='/auth/' ) sign in]
+		| or #[a( href='/registration/' ) sign up]
+		| if not registered yet!

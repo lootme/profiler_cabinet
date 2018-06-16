@@ -18,7 +18,11 @@ module.exports = (data, onLogicProcessed) => {
 				hide : true
 			},
 		},
-		add_mode: true
+		add_mode : true,
+		add_callback : function(){
+			location.href = '/cabinet/account/';
+			return false;
+		}
 	};
 
 	onLogicProcessed(data);
