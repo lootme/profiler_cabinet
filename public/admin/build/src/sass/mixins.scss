@@ -9,7 +9,7 @@
 	font-size: 18px;
 }
 table {
-	width: 1000px;
+	width: fit-content;
 	box-shadow: 0 0 0 1px var(--color-box-shadow-gray-dark);
 	> tbody {
 		> tr {
@@ -23,15 +23,22 @@ table {
 			}
 			> td {
 				position: relative;
-				padding: 10px;
-				min-width: 22px;
-				> input {
+				padding: 10px 20px;
+				min-width: 50px;
+				> input[type="checkbox"] {
 					margin: 0;
 					position: absolute;
 					top: calc(50% - 7px);
 					left: calc(50% - 7px);
 					height: 14px;
 					width: 14px;
+				}
+				> input[type="text"] {
+					margin-top: 0;
+					box-shadow: 0 0 0 1px var(--color-box-shadow-gray) inset;
+				}
+				> button {
+					min-width: 76px;
 				}
 				.path-item {
 					cursor: pointer;

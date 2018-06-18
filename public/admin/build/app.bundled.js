@@ -21589,21 +21589,17 @@ if (process.env.NODE_ENV === 'production') {
 },{}],30:[function(require,module,exports){
 'use strict';
 
-var React = require('react');window.React = React;var ReactDOM = require('react-dom');window.ReactDOM = ReactDOM;if (typeof reactRenderData != 'undefined' && typeof reactRenderData['add-content-block-form'] != 'undefined') {
-  var ReactComponentInstance1 = require('../../../../../react_components/add_form/add_form.jsx');ReactDOM.render(React.createElement(ReactComponentInstance1, { data: JSON.parse(reactRenderData['add-content-block-form'].data), cms: JSON.parse(reactRenderData['add-content-block-form'].cms) }), document.getElementById('add-content-block-form'));
-} else {
-  console.log("CMS: React component add_form was not rendered, because it's render data is not defined!");
-}if (typeof reactRenderData != 'undefined' && typeof reactRenderData['path-items-handling-block'] != 'undefined') {
-  var ReactComponentInstance2 = require('../../../../../react_components/path_items/path_items.jsx');ReactDOM.render(React.createElement(ReactComponentInstance2, { data: JSON.parse(reactRenderData['path-items-handling-block'].data), cms: JSON.parse(reactRenderData['path-items-handling-block'].cms) }), document.getElementById('path-items-handling-block'));
+var React = require('react');window.React = React;var ReactDOM = require('react-dom');window.ReactDOM = ReactDOM;if (typeof reactRenderData != 'undefined' && typeof reactRenderData['path-items-handling-block'] != 'undefined') {
+  var ReactComponentInstance1 = require('../../../../../react_components/path_items/path_items.jsx');ReactDOM.render(React.createElement(ReactComponentInstance1, { data: JSON.parse(reactRenderData['path-items-handling-block'].data), cms: JSON.parse(reactRenderData['path-items-handling-block'].cms) }), document.getElementById('path-items-handling-block'));
 } else {
   console.log("CMS: React component path_items was not rendered, because it's render data is not defined!");
 }if (typeof reactRenderData != 'undefined' && typeof reactRenderData['instance-items-handling-block'] != 'undefined') {
-  var ReactComponentInstance3 = require('../../../../../react_components/instance_items/instance_items.jsx');ReactDOM.render(React.createElement(ReactComponentInstance3, { data: JSON.parse(reactRenderData['instance-items-handling-block'].data), cms: JSON.parse(reactRenderData['instance-items-handling-block'].cms) }), document.getElementById('instance-items-handling-block'));
+  var ReactComponentInstance2 = require('../../../../../react_components/instance_items/instance_items.jsx');ReactDOM.render(React.createElement(ReactComponentInstance2, { data: JSON.parse(reactRenderData['instance-items-handling-block'].data), cms: JSON.parse(reactRenderData['instance-items-handling-block'].cms) }), document.getElementById('instance-items-handling-block'));
 } else {
   console.log("CMS: React component instance_items was not rendered, because it's render data is not defined!");
 }
 
-},{"../../../../../react_components/add_form/add_form.jsx":35,"../../../../../react_components/instance_items/instance_items.jsx":38,"../../../../../react_components/path_items/path_items.jsx":41,"react":28,"react-dom":25}],31:[function(require,module,exports){
+},{"../../../../../react_components/instance_items/instance_items.jsx":37,"../../../../../react_components/path_items/path_items.jsx":40,"react":28,"react-dom":25}],31:[function(require,module,exports){
 'use strict';
 
 var AppDispatcher = require('./dispatcher');
@@ -21753,95 +21749,6 @@ AppDispatcher.handleAction = function (action) {
 module.exports = AppDispatcher;
 
 },{"flux":16}],35:[function(require,module,exports){
-"use strict";
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = require("react");
-
-var List = function (_React$Component) {
-	_inherits(List, _React$Component);
-
-	function List(props) {
-		_classCallCheck(this, List);
-
-		var _this = _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
-
-		_this.state = { date: new Date() };
-		return _this;
-	}
-
-	_createClass(List, [{
-		key: "componentDidMount",
-		value: function componentDidMount() {
-			var _this2 = this;
-
-			this.timerID = setInterval(function () {
-				return _this2.tick();
-			}, 1000);
-		}
-	}, {
-		key: "componentWillUnmount",
-		value: function componentWillUnmount() {
-			clearInterval(this.timerID);
-		}
-	}, {
-		key: "tick",
-		value: function tick() {
-			this.setState({
-				date: new Date()
-			});
-		}
-	}, {
-		key: "render",
-		value: function render() {
-			return React.createElement(
-				"div",
-				null,
-				React.createElement(
-					"h1",
-					null,
-					"List of objects here!"
-				),
-				this.props.data.fields.map(function (field_name) {
-					return React.createElement(
-						"h2",
-						null,
-						field_name
-					);
-				}),
-				React.createElement(
-					"div",
-					null,
-					React.createElement(
-						"h1",
-						null,
-						"Hello, world!"
-					),
-					React.createElement(
-						"h2",
-						null,
-						"It is ",
-						this.state.date.toLocaleTimeString(),
-						"."
-					)
-				)
-			);
-		}
-	}]);
-
-	return List;
-}(React.Component);
-
-module.exports = List;
-
-},{"react":28}],36:[function(require,module,exports){
 "use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -22048,7 +21955,7 @@ var InstanceItem = function (_React$Component) {
 
 module.exports = InstanceItem;
 
-},{"../../react_actions/InstanceItemsActions":31,"react":28}],37:[function(require,module,exports){
+},{"../../react_actions/InstanceItemsActions":31,"react":28}],36:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22210,7 +22117,7 @@ var InstanceItemAdd = function (_React$Component) {
 
 module.exports = InstanceItemAdd;
 
-},{"../../react_actions/InstanceItemsActions":31,"react":28}],38:[function(require,module,exports){
+},{"../../react_actions/InstanceItemsActions":31,"react":28}],37:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22475,7 +22382,7 @@ var InstanceItems = function (_React$Component) {
 
 module.exports = InstanceItems;
 
-},{"../../react_actions/InstanceItemsActions":31,"../../react_stores/InstanceItemsStore":45,"./instance_item.jsx":36,"./instance_item_add.jsx":37,"./instance_items_buttons.jsx":39,"react":28}],39:[function(require,module,exports){
+},{"../../react_actions/InstanceItemsActions":31,"../../react_stores/InstanceItemsStore":44,"./instance_item.jsx":35,"./instance_item_add.jsx":36,"./instance_items_buttons.jsx":38,"react":28}],38:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22523,7 +22430,7 @@ var InstanceItemsButtons = function (_React$Component) {
 
 module.exports = InstanceItemsButtons;
 
-},{"../../react_actions/InstanceItemsActions":31,"react":28}],40:[function(require,module,exports){
+},{"../../react_actions/InstanceItemsActions":31,"react":28}],39:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22613,7 +22520,7 @@ var PathItem = function (_React$Component) {
 
 module.exports = PathItem;
 
-},{"../../react_actions/PathItemsActions":32,"react":28}],41:[function(require,module,exports){
+},{"../../react_actions/PathItemsActions":32,"react":28}],40:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22808,7 +22715,7 @@ var PathItems = function (_React$Component) {
 
 module.exports = PathItems;
 
-},{"../../react_actions/PathItemsActions":32,"../../react_stores/PathItemsStore":46,"./path_item.jsx":40,"./path_items_buttons.jsx":42,"./path_items_editor.jsx":43,"./path_items_group_buttons.jsx":44,"react":28}],42:[function(require,module,exports){
+},{"../../react_actions/PathItemsActions":32,"../../react_stores/PathItemsStore":45,"./path_item.jsx":39,"./path_items_buttons.jsx":41,"./path_items_editor.jsx":42,"./path_items_group_buttons.jsx":43,"react":28}],41:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22868,7 +22775,7 @@ var PathItemsButtons = function (_React$Component) {
 
 module.exports = PathItemsButtons;
 
-},{"../../react_actions/PathItemsActions":32,"react":28}],43:[function(require,module,exports){
+},{"../../react_actions/PathItemsActions":32,"react":28}],42:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22947,7 +22854,7 @@ var PathItemEditor = function (_React$Component) {
 
 module.exports = PathItemEditor;
 
-},{"../../react_actions/PathItemsActions":32,"react":28}],44:[function(require,module,exports){
+},{"../../react_actions/PathItemsActions":32,"react":28}],43:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22995,7 +22902,7 @@ var PathItemsGroupButtons = function (_React$Component) {
 
 module.exports = PathItemsGroupButtons;
 
-},{"../../react_actions/PathItemsActions":32,"react":28}],45:[function(require,module,exports){
+},{"../../react_actions/PathItemsActions":32,"react":28}],44:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -23282,7 +23189,7 @@ AppDispatcher.register(function (payload) {
 
 module.exports = InstanceItemsStore;
 
-},{"../react_actions/constants":33,"../react_actions/dispatcher":34,"events":1,"underscore":29}],46:[function(require,module,exports){
+},{"../react_actions/constants":33,"../react_actions/dispatcher":34,"events":1,"underscore":29}],45:[function(require,module,exports){
 'use strict';
 
 var AppDispatcher = require('../react_actions/dispatcher');

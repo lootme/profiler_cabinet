@@ -77,7 +77,7 @@ label {
 select {
   display: block;
   border: none;
-  height: 36px;
+  height: 32px;
   box-shadow: 0 0 0 1px var(--color-box-shadow-gray) inset;
   border-radius: 2px;
   padding: 0 6px; }
@@ -98,7 +98,9 @@ button {
   overflow-x: auto;
   overflow-y: hidden;
   display: grid;
-  width: calc(100vw - var(--aside-width) - 60px - 40px);
+  width: fit-content;
+  max-width: calc(100vw - var(--aside-width) - 60px - 40px);
+  margin-top: 20px;
   box-shadow: 0 0 0 1px var(--color-box-shadow-gray-dark); }
   .instance-data > .instance-data-head {
     display: flex;
@@ -113,6 +115,22 @@ button {
         --background-color: var(--color-bg-gray); }
       .instance-data > .instance-data-body > .instance-data-body-row:nth-of-type(n+2) {
         box-shadow: 0 1px var(--color-box-shadow-gray-dark) inset; }
+      .instance-data > .instance-data-body > .instance-data-body-row .instance-data-body-row-cell > input[type="text"] {
+        width: 100%;
+        margin-top: 0;
+        border-radius: 2px;
+        box-shadow: 0 0 0 1px var(--color-blue) inset; }
+      .instance-data > .instance-data-body > .instance-data-body-row .instance-data-body-row-cell > select {
+        box-shadow: 0 0 0 1px var(--color-blue) inset;
+        height: 36px; }
+      .instance-data > .instance-data-body > .instance-data-body-row .instance-data-body-row-cell > div {
+        display: block; }
+        .instance-data > .instance-data-body > .instance-data-body-row .instance-data-body-row-cell > div > span {
+          display: flex;
+          align-items: center; }
+          .instance-data > .instance-data-body > .instance-data-body-row .instance-data-body-row-cell > div > span > label {
+            font-size: 15px;
+            line-height: 20px; }
   .instance-data .instance-data-head-row, .instance-data .instance-data-body-row {
     display: flex; }
   .instance-data .instance-data-head-row-cell, .instance-data .instance-data-body-row-cell {
@@ -120,9 +138,10 @@ button {
     padding: 10px;
     word-break: break-word;
     display: flex;
-    min-height: 30px;
     align-items: center;
-    justify-content: center; }
+    justify-content: center;
+    min-height: 30px;
+    font-size: 15px; }
   .instance-data .instance-data-head-row-cell:first-child, .instance-data .instance-data-body-row-cell:first-child {
     width: 60px; }
 
@@ -146,7 +165,7 @@ button {
   font-size: 18px; }
 
 table {
-  width: 1000px;
+  width: fit-content;
   box-shadow: 0 0 0 1px var(--color-box-shadow-gray-dark); }
   table > tbody > tr {
     --background-color: var(--color-gray);
@@ -157,15 +176,20 @@ table {
       box-shadow: 0 1px var(--color-box-shadow-gray-dark) inset; }
     table > tbody > tr > td {
       position: relative;
-      padding: 10px;
-      min-width: 22px; }
-      table > tbody > tr > td > input {
+      padding: 10px 20px;
+      min-width: 50px; }
+      table > tbody > tr > td > input[type="checkbox"] {
         margin: 0;
         position: absolute;
         top: calc(50% - 7px);
         left: calc(50% - 7px);
         height: 14px;
         width: 14px; }
+      table > tbody > tr > td > input[type="text"] {
+        margin-top: 0;
+        box-shadow: 0 0 0 1px var(--color-box-shadow-gray) inset; }
+      table > tbody > tr > td > button {
+        min-width: 76px; }
       table > tbody > tr > td .path-item {
         cursor: pointer; }
         table > tbody > tr > td .path-item.type-d {
