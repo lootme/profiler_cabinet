@@ -1,29 +1,63 @@
 form {
 	display: flex;
 	flex-direction: column;
-	input {
-		height: 36px;
-		border: none;
-		&[type="text"], &[type="password"] {
-			padding: 0 6px;
-			margin-top: 4px;
-			box-shadow: 0 -1px 0 0 #dedede inset;
+}
+input {
+	height: 36px;
+	border: none;
+	&[type="text"], &[type="password"] {
+		padding: 0 6px;
+		margin-top: 4px;
+		box-shadow: 0 -1px 0 0 var(--color-box-shadow-gray) inset;
+	}
+	&[type="submit"] {
+		--box-shadow-color: var(--color-box-shadow-gray-dark);
+		--color: var(--color-text-dark-gray);
+		--background-color: var(--color-bg-gray);
+		padding: 0 14px;
+		margin-top: 16px;
+		border-radius: 2px;
+		background-color: var(--background-color);
+		color: var(--color);
+		text-transform: uppercase;
+		min-width: 100px;
+		box-shadow: 0 0 0 1px var(--box-shadow-color);
+		transition-property: color, box-shadow, background-color;
+		transition-duration: .4s;
+		cursor: pointer;
+		&:hover {
+			--color: var(--color-text-gray);
+			--box-shadow-color: var(--color-green);
+			--background-color: var(--color-white);
 		}
-		&[type="submit"] {
-			--box-shadow-color: transparent;
-			padding: 0 14px;
-			border-radius: 2px;
-			background: #91d579;
-			color: #fff;
-			align-self: flex-end;
-			min-width: 100px;
-			box-shadow: 0 0 0 1px var(--box-shadow-color);
-			transition-property: box-shadow;
-			transition-duration: .4s;
-			cursor: pointer;
-			&:hover {
-				--box-shadow-color: #e8e8e8;
-			}
-		}
+	}
+}
+label {
+	--height: 22px;
+	height: var(--height);
+	line-height: var(--height);
+	font-size: 15px !important;
+	color: var(--color-text-dark-gray);
+	text-transform: capitalize;
+}
+select {
+	display: block;
+	border: none;
+	height: 32px;
+	box-shadow: 0 0 0 1px var(--color-box-shadow-gray) inset;
+	border-radius: 2px;
+	padding: 0 6px;
+}
+button {
+	--background-color: var(--color-blue);
+	border: none;
+	border-radius: 2px;
+	background-color: var(--background-color);
+	height: 32px;
+	padding: 0 12px;
+	color: #fff;
+	cursor: pointer;
+	&:hover {
+		--background-color: #1769b0;
 	}
 }

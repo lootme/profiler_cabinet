@@ -19,10 +19,11 @@
 
 		}
 		a.login {
-			margin-left: auto;
 			display: flex;
 			align-items: center;
+			margin-left: auto;
 			width: 100px;
+			text-decoration: none;
 			icon {
 				--icon__size: 20px;
 				--icon__color: #91d579;

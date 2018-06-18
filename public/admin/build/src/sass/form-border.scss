@@ -4,4 +4,10 @@
 	background-color: var(--color-white);
 	width: 300px;
 	padding: 20px;
+	> form {
+		> div {
+			margin-top: 10px;
+			color: var(--color-text-gray);
+		}
+	}
 }

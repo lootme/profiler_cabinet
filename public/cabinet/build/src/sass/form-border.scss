@@ -4,4 +4,10 @@
 	padding: 20px;
 	border-radius: 2px;
 	box-shadow: 0 0 0 1px #e8e8e8, 0 3px 3px #00000024;
+	> form {
+		> div {
+			margin-top: 10px;
+			color: var(--color-text-gray);
+		}
+	}
 }

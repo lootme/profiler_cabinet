@@ -1,0 +1,24 @@
+#instance-items-handling-block {
+	> div {
+		> form {
+			padding: 20px;
+			border-radius: 2px;
+			box-shadow: 0 0 0 1px var(--color-box-shadow-gray), 0 3px 3px #00000024;
+		}
+		> form + div {
+			> select {
+				display: inline-block;
+			}
+			> button {
+				margin-left: 12px;
+			}
+		}
+		> div {
+			> div.instance-data {
+				.instance-data-head-row-cell:nth-of-type(2), .instance-data-body-row-cell:nth-of-type(2) {
+					width: 60px;
+				}
+			}
+		}
+	}
+}

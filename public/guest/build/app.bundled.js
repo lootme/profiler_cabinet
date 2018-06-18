@@ -22463,9 +22463,7 @@ var InstanceItems = function (_React$Component) {
 					React.createElement(
 						"h2",
 						{ className: "sub-heading" },
-						"List of ",
-						this.props.data.title,
-						" here!"
+						this.props.data.title
 					),
 					React.createElement("div", { "class": "errors-holder" }),
 					addForm,

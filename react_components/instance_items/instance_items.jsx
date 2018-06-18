@@ -22,7 +22,7 @@ class InstanceItems extends React.Component {
 
 		this._onChange = this._onChange.bind(this);
 	}
-	
+
 	getStateFromStore() {
 		var stateFromStore = {};
 		if(!this.props.data.addMode) {
@@ -33,10 +33,10 @@ class InstanceItems extends React.Component {
 			stateFromStore.selectedItems = InstanceItemsStore.getSelected();
 			stateFromStore.editingData = InstanceItemsStore.getEditingData();
 		}
-			
+
 		return stateFromStore;
 	}
-	
+
 	componentDidMount() {
 		if(!this.props.data.addMode) {
 			InstanceItemsStore.init(
@@ -48,29 +48,29 @@ class InstanceItems extends React.Component {
 		}
 		InstanceItemsStore.addChangeListener(this._onChange);
 	}
-	
+
 	componentWillUnmount() {
 		InstanceItemsStore.removeChangeListener(this._onChange);
 	}
-	
+
 	_onChange() {
 		this.setState(this.getStateFromStore());
 	}
-	
+
 	sort() {
 		InstanceItemsActions.receiveInstanceItems();
 	}
-	
+
 	selectSortingOrder(event) {
 		if(event.target.value)
 			InstanceItemsActions.setOrder(event.target.value);
 	}
-	
-	
+
+
 	saveEdited() {
 		InstanceItemsActions.updateInstanceItem();
 	}
-	
+
 	render() {
 		var renderInstanceItems = (items, groupId) => {
 			// TODO move all calculations to backend
@@ -79,7 +79,7 @@ class InstanceItems extends React.Component {
 				itemsSumm = 0;
 			var instanceItems = Object.keys(items).map((key, index) => {
 				var editingData = this.state.editingData &&
-										this.state.editingData.id == this.state.instanceItems[key].id ? 
+										this.state.editingData.id == this.state.instanceItems[key].id ?
 											this.state.editingData : false;
 				itemsCount++;
 				if(this.props.data.groupAvg) {
@@ -135,7 +135,7 @@ class InstanceItems extends React.Component {
 				});
 				return !isHidden;
 			}).map((propertyCode, index) => {
-					
+
 				label = propertyCode;
 
 				this.props.data.fields.forEach((field) => { // each field
@@ -143,20 +143,20 @@ class InstanceItems extends React.Component {
 						label = field.label;
 					}
 				});
-				
+
 				return  <div className="instance-data-head-row-cell">{label}</div>;
 			});
 		}
-		
+
 		var addForm = (!this.props.data.viewMode) ? <InstanceItemAdd fields={this.props.data.fields} /> : '',
 			buttons = (!this.props.data.viewMode) ? <InstanceItemsButtons /> : '';
-		
+
 		if(this.props.data.addMode) {
 			return addForm;
 		} else {
 			return (
 				<div>
-					<h2 className="sub-heading">List of {this.props.data.title} here!</h2>
+					<h2 className="sub-heading">{this.props.data.title}</h2>
 					<div class="errors-holder"></div>
 					{addForm}
 					{this.state.instanceItems ? (
@@ -188,6 +188,6 @@ class InstanceItems extends React.Component {
 			)
 		}
 	}
-	
+
 }
 module.exports = InstanceItems;
