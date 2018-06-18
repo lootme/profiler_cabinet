@@ -11,9 +11,30 @@ var _instanceItems = [],
 	_editingData = {};
 
 function loadInstanceItems(data, callback) {
+	var params = {
+		sortBy: _sortField,
+		orderBy: _sortOrder,
+		onlyRaw: 'y'
+	};
+	if(InstanceItemsStore.filter) {
+		params.where = JSON.stringify(InstanceItemsStore.filter);
+	}
+	if(InstanceItemsStore.groupBy) {
+		params.groupBy = JSON.stringify(InstanceItemsStore.groupBy);
+	}
+	var form = new FormData();
+	Object.keys(params).map((key, index) => {
+		if(typeof(params[key]) == 'object') {
+			for(var i in params[key]) {
+				form.append(key, params[key][i]);
+			}
+		} else {
+			form.append(key, params[key]);
+		}
+	});
 	fetch('/api/' + InstanceItemsStore.instanceName + '/get_items/', {
 		method: 'post',credentials: 'include',
-		body: 'sortBy=' + _sortField + '&orderBy=' + _sortOrder + '&onlyRaw=y'
+		body: form
 	})
 	.then(function(response) {
 		return response.json();
@@ -172,8 +193,10 @@ function updateEditing(callback) {
 
 var InstanceItemsStore = _.extend({}, EventEmitter.prototype, {
 
-	init: function(name, items, fields) {
+	init: function(name, items, filter, groupBy) {
 		this.instanceName = name;
+		this.filter = filter;
+		this.groupBy = groupBy;
 		
 		_instanceItems = items;
 	},

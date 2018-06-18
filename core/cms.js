@@ -102,7 +102,7 @@ module.exports = (config) => {
 		},
 		
 		getPagePath : (path) => {
-			return (!!path) ? './public/' + siteSectionName + '/pages' + path + '.js' : currentPagePath;
+			return (!!path) ? './public/' + siteSectionName + '/pages' + path : currentPagePath;
 		},
 		
 		getPageViewPath : (pagePath) => {

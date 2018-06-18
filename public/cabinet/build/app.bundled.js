@@ -21811,7 +21811,7 @@ var InstanceItem = function (_React$Component) {
 
 				_this2.props.fields.forEach(function (field) {
 					// each field
-					if (field.code == key && field.hide) {
+					if (key == 'detailLink' || field.code == key && field.hide) {
 						isHidden = true;
 					}
 				});
@@ -21825,50 +21825,63 @@ var InstanceItem = function (_React$Component) {
 					cell = inputs[key];
 				} else if (_this2.props.instanceItemData[key] && _typeof(_this2.props.instanceItemData[key]) == 'object') {
 
-					// no edit mode, type - plural
+					// no edit mode
+
 					cell = [];
 					_this2.props.fields.forEach(function (field) {
 						// each field
 						if (field.code == key) {
-							field.values.forEach(function (fieldValue) {
-								// each field value
-								var foundIndex = _this2.props.instanceItemData[key].indexOf(fieldValue.value);
-								if (foundIndex >= 0) {
-									cell.push(fieldValue.name);
-								}
-							});
+							if (field.values) {
+								//type - plural
+								field.values.forEach(function (fieldValue) {
+									// each field value
+									var foundIndex = _this2.props.instanceItemData[key].indexOf(fieldValue.value);
+									if (foundIndex >= 0) {
+										cell.push(fieldValue.name);
+									}
+								});
+							} else {
+								// type - json
+								cell.push(JSON.stringify(field));
+							}
 						}
 					});
 					cell = cell.join(', ');
 				} else {
 
 					// no edit mode, type - single
-					cell = _this2.props.instanceItemData[key];
+					cell = key == 'id' && _this2.props.instanceItemData.detailLink ? React.createElement(
+						"a",
+						{ href: _this2.props.instanceItemData.detailLink },
+						_this2.props.instanceItemData[key]
+					) : _this2.props.instanceItemData[key];
 				}
 				return React.createElement(
-					"td",
-					null,
+					"div",
+					{ className: "instance-data-body-row-cell" },
 					cell
 				);
 			});
-			return React.createElement(
-				"tr",
-				null,
-				React.createElement(
-					"td",
-					null,
-					React.createElement("input", { type: "checkbox", value: this.props.instanceItemData.id, onChange: this.addSelected })
-				),
-				cells,
-				React.createElement(
-					"td",
-					null,
+			if (!this.props.viewMode) {
+				cells.push(React.createElement(
+					"div",
+					{ className: "instance-data-body-row-cell" },
 					React.createElement(
 						"button",
 						{ onClick: this.props.editingData ? this.saveEdited : this.setEditingData },
 						this.props.editingData ? 'Save' : 'Edit'
 					)
-				)
+				));
+			}
+			return React.createElement(
+				"div",
+				{ className: "instance-data-body-row" },
+				!this.props.viewMode && React.createElement(
+					"div",
+					{ className: "instance-data-body-row-cell" },
+					React.createElement("input", { type: "checkbox", value: this.props.instanceItemData.id, onChange: this.addSelected })
+				),
+				cells
 			);
 		}
 	}]);
@@ -22084,17 +22097,24 @@ var InstanceItems = function (_React$Component) {
 	_createClass(InstanceItems, [{
 		key: "getStateFromStore",
 		value: function getStateFromStore() {
-			return {
-				instanceItems: InstanceItemsStore.getInstanceItems(),
-				order: InstanceItemsStore.getOrder(),
-				selectedItems: InstanceItemsStore.getSelected(),
-				editingData: InstanceItemsStore.getEditingData()
-			};
+			var stateFromStore = {};
+			if (!this.props.data.addMode) {
+				stateFromStore.instanceItems = InstanceItemsStore.getInstanceItems();
+				stateFromStore.order = InstanceItemsStore.getOrder();
+			}
+			if (!this.props.data.viewMode) {
+				stateFromStore.selectedItems = InstanceItemsStore.getSelected();
+				stateFromStore.editingData = InstanceItemsStore.getEditingData();
+			}
+
+			return stateFromStore;
 		}
 	}, {
 		key: "componentDidMount",
 		value: function componentDidMount() {
-			InstanceItemsStore.init(this.props.data.instanceName, this.state.instanceItems);
+			if (!this.props.data.addMode) {
+				InstanceItemsStore.init(this.props.data.instanceName, this.state.instanceItems, this.props.data.filter, this.props.data.groupBy);
+			}
 			InstanceItemsStore.addChangeListener(this._onChange);
 		}
 	}, {
@@ -22127,33 +22147,99 @@ var InstanceItems = function (_React$Component) {
 		value: function render() {
 			var _this2 = this;
 
-			var isHidden = false;
-			if (!this.props.data.addMode && this.state.instanceItems.length) {
-				var instanceItems = Object.keys(this.state.instanceItems).map(function (key, index) {
+			var renderInstanceItems = function renderInstanceItems(items, groupId) {
+				// TODO move all calculations to backend
+				var itemsCount = 0,
+				    itemsAvg = 0,
+				    itemsSumm = 0;
+				var instanceItems = Object.keys(items).map(function (key, index) {
 					var editingData = _this2.state.editingData && _this2.state.editingData.id == _this2.state.instanceItems[key].id ? _this2.state.editingData : false;
-					return React.createElement(InstanceItem, { key: index, instanceItemData: _this2.state.instanceItems[key], fields: _this2.props.data.fields, editingData: editingData });
+					itemsCount++;
+					if (_this2.props.data.groupAvg) {
+						itemsAvg += parseFloat(items[key][_this2.props.data.groupAvg]);
+					}
+					if (_this2.props.data.groupSumm) {
+						itemsSumm += parseFloat(items[key][_this2.props.data.groupSumm]);
+					}
+					return React.createElement(InstanceItem, {
+						key: index,
+						instanceItemData: items[key],
+						fields: _this2.props.data.fields,
+						viewMode: _this2.props.data.viewMode,
+						hasDetail: _this2.props.data.hasDetail,
+						editingData: editingData
+					});
 				});
-				var headers = Object.keys(this.state.instanceItems[0]).map(function (key, index) {
+				itemsAvg = _this2.props.data.groupAvg ? ' (' + itemsAvg / itemsCount + ')' : '';
+				itemsSumm = _this2.props.data.groupSumm ? ' (' + itemsSumm + ')' : '';
+				return !groupId ? instanceItems : React.createElement(
+					"div",
+					{ className: "instance-data-body-row-group" },
+					React.createElement(
+						"div",
+						{ className: "instance-data-body-row group-id" },
+						groupId,
+						" (count: ",
+						itemsCount,
+						")",
+						itemsAvg,
+						itemsSumm
+					),
+					instanceItems
+				);
+			};
+			var isHidden = false;
+
+			if (!this.props.data.addMode && Object.keys(this.state.instanceItems).length) {
+				var instanceItems,
+				    headersItem = false;
+				if (this.props.data.groupBy) {
+					instanceItems = Object.keys(this.state.instanceItems).map(function (groupId, index) {
+						if (!headers) {
+							headers = Object.keys(_this2.state.instanceItems[groupId][0]);
+						}
+
+						return renderInstanceItems(_this2.state.instanceItems[groupId], groupId);
+					});
+				} else {
+					instanceItems = renderInstanceItems(this.state.instanceItems);
+					headers = Object.keys(this.state.instanceItems[0]);
+				}
+
+				var label, isHidden;
+				var headers = headers.filter(function (propertyCode) {
+					isHidden = false;
 					_this2.props.data.fields.forEach(function (field) {
 						// each field
-						if (field.code == key && field.hide) {
-							isHidden = true;
+						if (!isHidden) {
+							isHidden = propertyCode == 'detailLink' || field.code == propertyCode && field.hide;
 						}
 					});
-					if (isHidden) {
-						return;
-					}
+					return !isHidden;
+				}).map(function (propertyCode, index) {
+
+					label = propertyCode;
+
+					_this2.props.data.fields.forEach(function (field) {
+						// each field
+						if (field.code == propertyCode && field.label) {
+							label = field.label;
+						}
+					});
 
 					return React.createElement(
-						"td",
-						null,
-						key
+						"div",
+						{ className: "instance-data-head-row-cell" },
+						label
 					);
 				});
 			}
 
+			var addForm = !this.props.data.viewMode ? React.createElement(InstanceItemAdd, { fields: this.props.data.fields }) : '',
+			    buttons = !this.props.data.viewMode ? React.createElement(InstanceItemsButtons, null) : '';
+
 			if (this.props.data.addMode) {
-				return React.createElement(InstanceItemAdd, { fields: this.props.data.fields });
+				return addForm;
 			} else {
 				return React.createElement(
 					"div",
@@ -22166,7 +22252,7 @@ var InstanceItems = function (_React$Component) {
 						" here!"
 					),
 					React.createElement("div", { "class": "errors-holder" }),
-					React.createElement(InstanceItemAdd, { fields: this.props.data.fields }),
+					addForm,
 					this.state.instanceItems ? React.createElement(
 						"div",
 						null,
@@ -22196,26 +22282,26 @@ var InstanceItems = function (_React$Component) {
 							this.state.order
 						),
 						React.createElement(
-							"table",
-							null,
+							"div",
+							{ className: "instance-data" },
 							React.createElement(
-								"thead",
-								null,
+								"div",
+								{ className: "instance-data-head" },
 								React.createElement(
-									"tr",
-									null,
-									React.createElement("td", null),
+									"div",
+									{ className: "instance-data-head-row" },
+									!this.props.data.viewMode && React.createElement("div", { className: "instance-data-head-row-cell" }),
 									headers,
-									React.createElement("td", null)
+									!this.props.data.viewMode && React.createElement("div", { className: "instance-data-head-row-cell" })
 								)
 							),
 							React.createElement(
-								"tbody",
-								null,
+								"div",
+								{ className: "instance-data-body" },
 								instanceItems
 							)
 						),
-						React.createElement(InstanceItemsButtons, null)
+						buttons
 					) : React.createElement(
 						"div",
 						null,
@@ -22298,9 +22384,30 @@ var _instanceItems = [],
     _editingData = {};
 
 function loadInstanceItems(data, callback) {
+	var params = {
+		sortBy: _sortField,
+		orderBy: _sortOrder,
+		onlyRaw: 'y'
+	};
+	if (InstanceItemsStore.filter) {
+		params.where = JSON.stringify(InstanceItemsStore.filter);
+	}
+	if (InstanceItemsStore.groupBy) {
+		params.groupBy = JSON.stringify(InstanceItemsStore.groupBy);
+	}
+	var form = new FormData();
+	Object.keys(params).map(function (key, index) {
+		if (_typeof(params[key]) == 'object') {
+			for (var i in params[key]) {
+				form.append(key, params[key][i]);
+			}
+		} else {
+			form.append(key, params[key]);
+		}
+	});
 	fetch('/api/' + InstanceItemsStore.instanceName + '/get_items/', {
 		method: 'post', credentials: 'include',
-		body: 'sortBy=' + _sortField + '&orderBy=' + _sortOrder + '&onlyRaw=y'
+		body: form
 	}).then(function (response) {
 		return response.json();
 	}).then(function (response) {
@@ -22449,8 +22556,10 @@ function updateEditing(callback) {
 
 var InstanceItemsStore = _.extend({}, EventEmitter.prototype, {
 
-	init: function init(name, items, fields) {
+	init: function init(name, items, filter, groupBy) {
 		this.instanceName = name;
+		this.filter = filter;
+		this.groupBy = groupBy;
 
 		_instanceItems = items;
 	},

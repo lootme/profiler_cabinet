@@ -19,21 +19,33 @@ class InstanceItems extends React.Component {
 			selectedItems: [],
 			editingData: false
 		};
-		
+
 		this._onChange = this._onChange.bind(this);
 	}
 	
 	getStateFromStore() {
-		return {
-			instanceItems: InstanceItemsStore.getInstanceItems(),
-			order: InstanceItemsStore.getOrder(),
-			selectedItems: InstanceItemsStore.getSelected(),
-			editingData: InstanceItemsStore.getEditingData()
-		};
+		var stateFromStore = {};
+		if(!this.props.data.addMode) {
+			stateFromStore.instanceItems = InstanceItemsStore.getInstanceItems();
+			stateFromStore.order = InstanceItemsStore.getOrder();
+		}
+		if(!this.props.data.viewMode) {
+			stateFromStore.selectedItems = InstanceItemsStore.getSelected();
+			stateFromStore.editingData = InstanceItemsStore.getEditingData();
+		}
+			
+		return stateFromStore;
 	}
 	
 	componentDidMount() {
-		InstanceItemsStore.init(this.props.data.instanceName, this.state.instanceItems);
+		if(!this.props.data.addMode) {
+			InstanceItemsStore.init(
+				this.props.data.instanceName,
+				this.state.instanceItems,
+				this.props.data.filter,
+				this.props.data.groupBy
+			);
+		}
 		InstanceItemsStore.addChangeListener(this._onChange);
 	}
 	
@@ -60,36 +72,93 @@ class InstanceItems extends React.Component {
 	}
 	
 	render() {
-		var isHidden = false;
-		if(!this.props.data.addMode && this.state.instanceItems.length) {
-			var instanceItems = Object.keys(this.state.instanceItems).map((key, index) => {
+		var renderInstanceItems = (items, groupId) => {
+			// TODO move all calculations to backend
+			var itemsCount = 0,
+				itemsAvg = 0,
+				itemsSumm = 0;
+			var instanceItems = Object.keys(items).map((key, index) => {
 				var editingData = this.state.editingData &&
 										this.state.editingData.id == this.state.instanceItems[key].id ? 
 											this.state.editingData : false;
-				return <InstanceItem key={index} instanceItemData={this.state.instanceItems[key]} fields={this.props.data.fields} editingData={editingData} />
+				itemsCount++;
+				if(this.props.data.groupAvg) {
+					itemsAvg += parseFloat(items[key][this.props.data.groupAvg]);
+				}
+				if(this.props.data.groupSumm) {
+					itemsSumm += parseFloat(items[key][this.props.data.groupSumm]);
+				}
+				return <InstanceItem
+						key={index}
+						instanceItemData={items[key]}
+						fields={this.props.data.fields}
+						viewMode={this.props.data.viewMode}
+						hasDetail={this.props.data.hasDetail}
+						editingData={editingData}
+					/>
 			});
-			var headers = Object.keys(this.state.instanceItems[0]).map((key, index) => {
+			itemsAvg = (this.props.data.groupAvg) ? ' (' + itemsAvg/itemsCount + ')' : '';
+			itemsSumm = (this.props.data.groupSumm) ? ' (' + itemsSumm + ')' : '';
+			return !groupId ?
+				instanceItems :
+				<div className="instance-data-body-row-group">
+					<div className="instance-data-body-row group-id">{groupId} (count: {itemsCount}){itemsAvg}{itemsSumm}</div>
+					{instanceItems}
+				</div>
+		}
+		var isHidden = false;
+
+		if(!this.props.data.addMode && Object.keys(this.state.instanceItems).length) {
+			var instanceItems,
+				headersItem = false;
+			if(this.props.data.groupBy) {
+				instanceItems = Object.keys(this.state.instanceItems).map((groupId, index) => {
+					if(!headers) {
+						headers = Object.keys(this.state.instanceItems[groupId][0]);
+					}
+
+					return renderInstanceItems(this.state.instanceItems[groupId], groupId)
+				});
+			} else {
+				instanceItems = renderInstanceItems(this.state.instanceItems);
+				headers = Object.keys(this.state.instanceItems[0]);
+			}
+
+			var label,
+				isHidden;
+			var headers = headers.filter(propertyCode => {
+				isHidden = false;
 				this.props.data.fields.forEach((field) => { // each field
-					if(field.code == key && field.hide) {
-							isHidden = true;
+					if(!isHidden) {
+						isHidden = propertyCode == 'detailLink' || (field.code == propertyCode && field.hide);
 					}
 				});
-				if(isHidden) {
-					return;
-				}
+				return !isHidden;
+			}).map((propertyCode, index) => {
+					
+				label = propertyCode;
+
+				this.props.data.fields.forEach((field) => { // each field
+					if(field.code == propertyCode && field.label) {
+						label = field.label;
+					}
+				});
 				
-				return <td>{key}</td>
+				return  <div className="instance-data-head-row-cell">{label}</div>;
 			});
 		}
 		
+		var addForm = (!this.props.data.viewMode) ? <InstanceItemAdd fields={this.props.data.fields} /> : '',
+			buttons = (!this.props.data.viewMode) ? <InstanceItemsButtons /> : '';
+		
 		if(this.props.data.addMode) {
-			return <InstanceItemAdd fields={this.props.data.fields} />
+			return addForm;
 		} else {
 			return (
 				<div>
 					<h2 className="sub-heading">List of {this.props.data.title} here!</h2>
 					<div class="errors-holder"></div>
-					{<InstanceItemAdd fields={this.props.data.fields} />}
+					{addForm}
 					{this.state.instanceItems ? (
 						<div>
 							<select onChange={this.selectSortingOrder}>
@@ -98,19 +167,19 @@ class InstanceItems extends React.Component {
 								<option value='name-desc'>Name descending</option>
 							</select>
 							<button onClick={this.sort}>Sort by {this.state.order}</button>
-							<table>
-								<thead>
-									<tr>
-										<td></td>
+							<div className="instance-data">
+								<div className="instance-data-head">
+									<div className="instance-data-head-row">
+										{!this.props.data.viewMode && <div className="instance-data-head-row-cell"></div>}
 										{headers}
-										<td></td>
-									</tr>
-								</thead>
-								<tbody>
+										{!this.props.data.viewMode && <div className="instance-data-head-row-cell"></div>}
+									</div>
+								</div>
+								<div className="instance-data-body">
 								{instanceItems}
-								</tbody>
-							</table>
-							<InstanceItemsButtons />
+								</div>
+							</div>
+							{buttons}
 						</div>
 					) : (
 						<div>{this.props.data.title} are not found!</div>

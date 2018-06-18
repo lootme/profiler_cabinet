@@ -5,10 +5,10 @@ module.exports = {
 					instanceName : params.name,
 					title : params.title,
 					addMode : params.add_mode || false,
+					viewMode : params.view_mode || false,
 					addCallback : params.add_callback || false
 				},
 				fieldParams;
-			console.log('in module!!!!!!!!!!!!!!!!!!!!!:', result);
 			
 			cms.call(params.name, 'getFields', {}, function(instanceFields) {
 
@@ -38,16 +38,40 @@ module.exports = {
 					onLogicProcessed(result);
 					
 				} else {
-					cms.call(params.name, 'getItems', {}, function(instanceItems) {
+					var apiCallParams = {};
+					if(params.filter) {
+						apiCallParams.where = params.filter;
+						result.filter = params.filter;
+					}
+					if(params.groupBy) {
+						apiCallParams.groupBy = params.groupBy;
+						result.groupBy = params.groupBy;
+						
+						if(params.groupSumm) {
+							result.groupSumm = params.groupSumm;
+						}
+						
+						if(params.groupAvg) {
+							result.groupAvg = params.groupAvg;
+						}
+					}
+
+					cms.call(params.name, 'getItems', apiCallParams, function(instanceItems) {
 						
 						result.instanceItems = instanceItems;
 						
+						// making detail links
+						if(params.has_detail) {
+							Object.keys(instanceItems).map((key, index) => {
+								if(instanceItems[key].id) {
+									instanceItems[key].detailLink = cms.getCurrentUrl() +  params.name + '-' + instanceItems[key].id + '/';
+								}
+							});
+						}
+						
 						onLogicProcessed(result);
 					});
-				}
-						
-				
-					
+				}		
 				
 			});
 			

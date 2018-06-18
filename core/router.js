@@ -19,6 +19,7 @@ function route(pathname, request, response) {
 			console.log('Routed path is: ' + routedPath + ' and  request.get:',  request.get);
 			return false; // break loop
 		}
+		return true;
 	});
 	var realPath = cms.getPagePath(routedPath)
 	/*var realPath = (routes[pathname]) ?

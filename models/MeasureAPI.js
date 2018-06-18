@@ -13,6 +13,14 @@ module.exports = {
 		}
 		
 		var where = {};
+		if(params.where) {
+			try {
+				where = JSON.parse(params.where);
+			} catch(e) {
+				where = params.where;
+			}
+		}
+
 		if(authUser) {
 			//where.UserId = authUser.id; TODO checking user by project
 		}
@@ -37,24 +45,72 @@ module.exports = {
 	
 		var sortField = params.sortBy || 'name',
 			sortOrder = params.orderBy || 'ASC';
-		
+
 		Measure.findAll({
 			order : [[sortField, sortOrder]],
 			where : where
 		})
 		.then(function(measures) {
+			
+			if(!measures.length) {
+				return onResultReady({});
+			}
+			
 			var result = [];
+			
+			// gettings measures count and average values
+			var pointsParams = { where: { MeasureId : [] } };
 			measures.forEach(measure => {
-				result.push({
-					id: measure.dataValues.id,
-					name: measure.dataValues.name,
-					ProjectId: measure.dataValues.UserId,
-					createdAt: helper.formatDate(measure.dataValues.createdAt.toString(), true),
-					updatedAt: helper.formatDate(measure.dataValues.updatedAt.toString(), true)
+				pointsParams.where.MeasureId.push(measure.dataValues.id);
+			});
+			cms.call('point', 'getItems', pointsParams, function(points){
+				var pointsData = {};
+				points.forEach(point => {
+					if(!pointsData[point.MeasureId]) {
+						pointsData[point.MeasureId] = {
+							Measures: [],
+							MemAVG: 0,
+							TimeAVG: 0,
+						};
+					}
+					if(pointsData[point.MeasureId].Measures.indexOf(point.sessionId) < 0) {
+						pointsData[point.MeasureId].Measures.push(point.sessionId);
+					}
+					// TODO here we can simply take last point values
+					if(point.PointTypeId == 1) {
+						pointsData[point.MeasureId].MemAVG += parseFloat(point.diff);
+					} else if(point.PointTypeId == 2) {
+						pointsData[point.MeasureId].TimeAVG += parseFloat(point.diff);
+					}
 				});
+				Object.keys(pointsData).map((measureId, index) => {
+					pointsData[measureId].MemAVG =
+						pointsData[measureId].MemAVG /
+						pointsData[measureId].Measures.length;
+					pointsData[measureId].TimeAVG =
+						pointsData[measureId].TimeAVG /
+						pointsData[measureId].Measures.length;
+				});
+
+				measures.forEach(measure => {
+					if(!pointsData[measure.dataValues.id]) {
+						return; // no points yet
+					}
+					result.push({
+						id: measure.dataValues.id,
+						name: measure.dataValues.name,
+						ProjectId: measure.dataValues.UserId,
+						Measures: pointsData[measure.dataValues.id].Measures.length,
+						MemAVG: pointsData[measure.dataValues.id].MemAVG,
+						TimeAVG: pointsData[measure.dataValues.id].TimeAVG,
+						createdAt: helper.formatDate(measure.dataValues.createdAt.toString(), true),
+						updatedAt: helper.formatDate(measure.dataValues.updatedAt.toString(), true)
+					});
+				});
+
+				onResultReady(result);
 			});
 
-			onResultReady(result);
 		});
 	},
 	

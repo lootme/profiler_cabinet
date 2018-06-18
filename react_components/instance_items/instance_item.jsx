@@ -94,14 +94,14 @@ class InstanceItem extends React.Component {
 				isHidden = false;
 				
 			this.props.fields.forEach((field) => { // each field
-				if(field.code == key && field.hide) {
+				if(key == 'detailLink' || (field.code == key && field.hide)) {
 						isHidden = true;
 				}
 			});
 			if(isHidden) {
 				return;
 			}
-			
+
 			if(this.props.editingData && inputs[key]) {
 			
 				// edit mode
@@ -109,16 +109,23 @@ class InstanceItem extends React.Component {
 				
 			} else if(this.props.instanceItemData[key] && typeof(this.props.instanceItemData[key]) == 'object') {
 			
-				// no edit mode, type - plural
+				// no edit mode
+				
 				cell = [];
 				this.props.fields.forEach((field) => { // each field
 					if(field.code == key) {
+						if(field.values) {
+							//type - plural
 							field.values.forEach((fieldValue) => { // each field value
 								var foundIndex = this.props.instanceItemData[key].indexOf(fieldValue.value);
 								if(foundIndex >= 0) {
 									cell.push(fieldValue.name);
 								}
 							});
+						} else {
+							// type - json
+							cell.push(JSON.stringify(field));
+						}
 					}
 				});
 				cell = cell.join(', ');
@@ -126,19 +133,25 @@ class InstanceItem extends React.Component {
 			} else {
 			
 				// no edit mode, type - single
-				cell = this.props.instanceItemData[key];
+				cell = (key == 'id' && this.props.instanceItemData.detailLink) ? 
+					<a href={this.props.instanceItemData.detailLink}>{this.props.instanceItemData[key]}</a> :
+					this.props.instanceItemData[key];
 				
 			}
 			return (
-				<td>{cell}</td>
+				<div className="instance-data-body-row-cell">{cell}</div>
 			)
 		});
+		if(!this.props.viewMode) {
+			cells.push(<div className="instance-data-body-row-cell"><button onClick={this.props.editingData ? this.saveEdited : this.setEditingData}>{this.props.editingData ? 'Save' : 'Edit'}</button></div>);
+		}
 		return (
-				<tr>
-					<td><input type="checkbox" value={this.props.instanceItemData.id} onChange={this.addSelected} /></td>
+				<div className="instance-data-body-row">
+					{!this.props.viewMode &&
+						<div className="instance-data-body-row-cell"><input type="checkbox" value={this.props.instanceItemData.id} onChange={this.addSelected} /></div>
+					}
 					{cells}
-					<td><button onClick={this.props.editingData ? this.saveEdited : this.setEditingData}>{this.props.editingData ? 'Save' : 'Edit'}</button></td>
-				</tr>
+				</div>
 		)
 	}
 	

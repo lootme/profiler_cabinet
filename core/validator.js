@@ -54,7 +54,7 @@ module.exports = () => {
 						// required
 						var stringCheck = typeof(value) == 'string' && value.match(/^\d*$/),
 							intCheck = Number.isInteger(value);
-						if(fieldParams.required && (!value || (!stringCheck && !intCheck))) {
+						if(fieldParams.required && ((!value && value !== 0) || (!stringCheck && !intCheck))) {
 							addError('required', propCode);
 						}
 						
@@ -85,9 +85,8 @@ module.exports = () => {
 					case "f":
 						
 						// required
-						var stringCheck = typeof(value) == 'string' && value.match(/^[\d\.]*$/),
-							floatCheck = !isNaN(value) && value.toString().indexOf('.') >= 0;
-						if(fieldParams.required && (!value || (!stringCheck && !floatCheck))) {
+						var typeCheck = value.toString().match(/^[\d\.]*$/);
+						if(fieldParams.required && (!value || !typeCheck)) {
 							addError('required', propCode);
 						}
 						
