@@ -5,12 +5,6 @@
 .error {
   color: red; }
 
-.data-projects-measure-list > div > select {
-  display: inline-block; }
-
-.data-projects-measure-list > div > select + button {
-  margin-left: 12px; }
-
 @font-face {
   font-family: 'Opensans-regular';
   src: url("src/fonts/opensans-regular-webfont.woff2") format("woff2"), url("src/fonts/opensans-regular-webfont.woff") format("woff");
@@ -203,12 +197,29 @@ icon {
   .instance-data .instance-data-body {
     display: grid; }
     .instance-data .instance-data-body .instance-data-body-row-group:nth-of-type(n+2) {
-      box-shadow: 0 1px var(--color-box-shadow-gray-dark) inset; }
-    .instance-data .instance-data-body .instance-data-body-row-group > .instance-data-body-row.group-id {
-      min-height: 30px;
-      align-items: center;
-      padding: 10px;
-      background: #91d57963; }
+      box-shadow: 0 -1px var(--color-box-shadow-gray-dark); }
+    .instance-data .instance-data-body .instance-data-body-row-group .instance-data-body-row {
+      transition-property: max-height, opacity, background-color, color;
+      transition-duration: .2s; }
+      .instance-data .instance-data-body .instance-data-body-row-group .instance-data-body-row:nth-of-type(1) {
+        min-height: 30px;
+        align-items: center;
+        padding: 10px;
+        cursor: pointer;
+        background-color: var(--color-white);
+        color: var(--color-blue);
+        text-decoration: underline; }
+      .instance-data .instance-data-body .instance-data-body-row-group .instance-data-body-row:nth-of-type(n+2) {
+        max-height: 0;
+        opacity: 0;
+        pointer-events: none; }
+    .instance-data .instance-data-body .instance-data-body-row-group.open .instance-data-body-row:nth-of-type(1) {
+      background-color: rgba(145, 213, 121, 0.4);
+      color: var(--color-text-gark-gray); }
+    .instance-data .instance-data-body .instance-data-body-row-group.open .instance-data-body-row:nth-of-type(n+2) {
+      max-height: 100px;
+      opacity: 1;
+      pointer-events: auto; }
     .instance-data .instance-data-body .instance-data-body-row {
       --background-color: var(--color-gray);
       background-color: var(--background-color); }
@@ -248,6 +259,12 @@ icon {
 
 .instance-control-buttons {
   margin-top: 16px; }
+
+#instance-items-handling-block > div div > select {
+  display: inline-block; }
+
+#instance-items-handling-block > div div > select + button {
+  margin-left: 12px; }
 
 #instance-items-handling-block > div > form {
   padding: 20px;
