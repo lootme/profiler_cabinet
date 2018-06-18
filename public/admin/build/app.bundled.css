@@ -24,6 +24,12 @@
     flex-direction: column; }
     .form-instance-add > .form-instance-add-field:nth-of-type(n+2) {
       margin-top: 16px; }
+    .form-instance-add > .form-instance-add-field > div {
+      display: flex;
+      align-items: center; }
+      .form-instance-add > .form-instance-add-field > div > input + label {
+        font-size: 15px;
+        line-height: 20px; }
   .form-instance-add > input[type="submit"] {
     margin-left: auto; }
   .form-instance-add > [data-hidden] {
@@ -87,6 +93,38 @@ button {
   cursor: pointer; }
   button:hover {
     --background-color: #1769b0; }
+
+.instance-data {
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: grid;
+  width: calc(100vw - var(--aside-width) - 60px - 40px);
+  box-shadow: 0 0 0 1px var(--color-box-shadow-gray-dark); }
+  .instance-data > .instance-data-head {
+    display: flex;
+    background-color: #f2f2f2;
+    box-shadow: 0 -1px var(--color-box-shadow-gray-dark) inset, 0 0 3px var(--color-box-shadow-gray-dark); }
+  .instance-data > .instance-data-body {
+    display: grid; }
+    .instance-data > .instance-data-body > .instance-data-body-row {
+      --background-color: var(--color-gray);
+      background-color: var(--background-color); }
+      .instance-data > .instance-data-body > .instance-data-body-row:hover {
+        --background-color: var(--color-bg-gray); }
+      .instance-data > .instance-data-body > .instance-data-body-row:nth-of-type(n+2) {
+        box-shadow: 0 1px var(--color-box-shadow-gray-dark) inset; }
+  .instance-data .instance-data-head-row, .instance-data .instance-data-body-row {
+    display: flex; }
+  .instance-data .instance-data-head-row-cell, .instance-data .instance-data-body-row-cell {
+    width: 160px;
+    padding: 10px;
+    word-break: break-word;
+    display: flex;
+    min-height: 30px;
+    align-items: center;
+    justify-content: center; }
+  .instance-data .instance-data-head-row-cell:first-child, .instance-data .instance-data-body-row-cell:first-child {
+    width: 60px; }
 
 #instance-items-handling-block > div > div select {
   display: inline-block; }
@@ -239,30 +277,17 @@ table {
   .path-items-editor .path-items-editor-buttons button {
     margin: 0 5px; }
 
-/* TEMP */
-.instance-data-head-row-cell, .instance-data-body-row-cell {
-  display: inline-block;
-  margin: 0 10px;
-  text-align: center;
-  width: 80px; }
-
-.instance-data-head-row, .instance-data-body-row {
-  border-bottom: 1px solid; }
-
-.instance-data-body-row-group .instance-data-body-row:first-child {
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: underline; }
-
 body div.root {
+  --aside-width: 300px;
   display: grid;
   grid-column-gap: 30px;
-  grid-template-columns: [aside-start] 1fr [aside-end content-start] 5fr [content-end];
+  grid-template-columns: [aside-start] var(--aside-width) [aside-end content-start] 1fr [content-end];
   grid-template-rows: [aside-start content-start] 1fr [aside-end content-end];
   height: 100vh;
   font-family: sans-serif; }
   body div.root .aside {
     grid-area: aside;
+    width: var(--aside-width);
     padding: 50px 0;
     font-size: 13px;
     font-family: sans-serif;

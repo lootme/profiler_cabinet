@@ -41,22 +41,7 @@
 			float: right;
 
 			button {
-				    margin: 0 5px;
+				margin: 0 5px;
 			}
 	}
-}
-/* TEMP */
-.instance-data-head-row-cell, .instance-data-body-row-cell {
-    display: inline-block;
-    margin: 0 10px;
-    text-align: center;
-    width: 80px;
-}
-.instance-data-head-row, .instance-data-body-row {
-    border-bottom: 1px solid;
-}
-.instance-data-body-row-group .instance-data-body-row:first-child {
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: underline;
 }

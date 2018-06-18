@@ -10,6 +10,14 @@
 		&:nth-of-type(n+2) {
 			margin-top: 16px;
 		}
+		> div {
+			display: flex;
+			align-items: center;
+			> input + label {
+				font-size: 15px;
+				line-height: 20px;
+			}
+		}
 	}
 	> input[type="submit"] {
 		margin-left: auto;

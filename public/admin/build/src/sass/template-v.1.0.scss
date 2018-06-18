@@ -1,13 +1,15 @@
 body {
 	div.root {
+		--aside-width: 300px;
 		display: grid;
 		grid-column-gap: 30px;
-		grid-template-columns: [aside-start] 1fr [aside-end content-start] 5fr [content-end];
+		grid-template-columns: [aside-start] var(--aside-width) [aside-end content-start] 1fr [content-end];
 		grid-template-rows: [aside-start content-start] 1fr [aside-end content-end];
 		height: 100vh;
 		font-family: sans-serif;
 		.aside {
 			grid-area: aside;
+			width: var(--aside-width);
 			padding: 50px 0;
 			font-size: 13px;
 			font-family: sans-serif;

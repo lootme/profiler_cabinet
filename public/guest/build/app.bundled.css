@@ -80,6 +80,7 @@ form {
     height: var(--height);
     line-height: var(--height);
     font-size: 15px;
+    text-decoration: none;
     box-shadow: 0px 1px var(--box-shadow-color);
     cursor: pointer;
     transition-property: color, box-shadow;
@@ -163,6 +164,7 @@ menu.left-menu {
     font-size: 15px;
     color: var(--color);
     background-color: var(--background-color);
+    text-decoration: none;
     transition-duration: .4s;
     transition-property: color,background-color;
     cursor: pointer; }
