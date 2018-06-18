@@ -21,6 +21,7 @@ footer.footer {
   font-size: 12px; }
 
 .form-border {
+  align-self: center;
   background-color: #fff;
   width: 300px;
   padding: 20px;
@@ -29,6 +30,14 @@ footer.footer {
   .form-border > form > div {
     margin-top: 10px;
     color: var(--color-text-gray); }
+  .form-border > form p {
+    font-size: 15px;
+    line-height: 18px;
+    color: var(--color-text-gray); }
+  .form-border > form a {
+    font-size: 15px;
+    line-height: 18px;
+    color: var(--color-blue); }
 
 .form-instance-add {
   width: 400px;
@@ -364,6 +373,9 @@ div.root {
   height: var(--height);
   line-height: var(--height);
   color: var(--color-text-gark-gray); }
+
+a {
+  color: var(--color-blue); }
 
 .projects-list > div > select {
   display: inline-block; }

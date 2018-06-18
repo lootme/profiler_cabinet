@@ -15,6 +15,14 @@
   .form-border > form > div {
     margin-top: 10px;
     color: var(--color-text-gray); }
+  .form-border > form p {
+    font-size: 15px;
+    line-height: 18px;
+    color: var(--color-text-gray); }
+  .form-border > form a {
+    font-size: 15px;
+    line-height: 18px;
+    color: var(--color-blue); }
 
 .form-instance-add {
   width: 400px;
@@ -166,6 +174,9 @@ button {
   display: block;
   color: var(--color-blue);
   font-size: 18px; }
+
+a {
+  color: var(--color-blue); }
 
 table {
   width: fit-content;
