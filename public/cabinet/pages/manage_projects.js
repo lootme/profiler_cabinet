@@ -7,6 +7,7 @@ module.exports = (data, onLogicProcessed) => {
 	data.instanceManagmentSettings = {
 		name : 'project',
 		title : 'Projects',
+		mainClass: 'manage-projects-list',
 		fields_settings : {
 			UserId : {
 				hide : true

@@ -1,0 +1,10 @@
+.data-projects-measure-list {
+	> div {
+		> select {
+			display: inline-block;
+		}
+			> select + button {
+				margin-left: 12px;
+			}
+	}
+}

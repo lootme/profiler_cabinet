@@ -5,6 +5,12 @@
 .error {
   color: red; }
 
+.data-projects-measure-list > div > select {
+  display: inline-block; }
+
+.data-projects-measure-list > div > select + button {
+  margin-left: 12px; }
+
 @font-face {
   font-family: 'Opensans-regular';
   src: url("src/fonts/opensans-regular-webfont.woff2") format("woff2"), url("src/fonts/opensans-regular-webfont.woff") format("woff");
@@ -190,33 +196,40 @@ icon {
   max-width: 100%;
   margin-top: 20px;
   box-shadow: 0 0 0 1px var(--color-box-shadow-gray-dark); }
-  .instance-data > .instance-data-head {
+  .instance-data .instance-data-head {
     display: flex;
     background-color: #f2f2f2;
     box-shadow: 0 -1px var(--color-box-shadow-gray-dark) inset, 0 0 3px var(--color-box-shadow-gray-dark); }
-  .instance-data > .instance-data-body {
+  .instance-data .instance-data-body {
     display: grid; }
-    .instance-data > .instance-data-body > .instance-data-body-row {
+    .instance-data .instance-data-body .instance-data-body-row-group:nth-of-type(n+2) {
+      box-shadow: 0 1px var(--color-box-shadow-gray-dark) inset; }
+    .instance-data .instance-data-body .instance-data-body-row-group > .instance-data-body-row.group-id {
+      min-height: 30px;
+      align-items: center;
+      padding: 10px;
+      background: #91d57963; }
+    .instance-data .instance-data-body .instance-data-body-row {
       --background-color: var(--color-gray);
       background-color: var(--background-color); }
-      .instance-data > .instance-data-body > .instance-data-body-row:hover {
+      .instance-data .instance-data-body .instance-data-body-row:hover {
         --background-color: var(--color-bg-gray); }
-      .instance-data > .instance-data-body > .instance-data-body-row:nth-of-type(n+2) {
+      .instance-data .instance-data-body .instance-data-body-row:nth-of-type(n+2) {
         box-shadow: 0 1px var(--color-box-shadow-gray-dark) inset; }
-      .instance-data > .instance-data-body > .instance-data-body-row .instance-data-body-row-cell > input[type="text"] {
+      .instance-data .instance-data-body .instance-data-body-row .instance-data-body-row-cell > input[type="text"] {
         width: 100%;
         margin-top: 0;
         border-radius: 2px;
         box-shadow: 0 0 0 1px var(--color-blue) inset; }
-      .instance-data > .instance-data-body > .instance-data-body-row .instance-data-body-row-cell > select {
+      .instance-data .instance-data-body .instance-data-body-row .instance-data-body-row-cell > select {
         box-shadow: 0 0 0 1px var(--color-blue) inset;
         height: 36px; }
-      .instance-data > .instance-data-body > .instance-data-body-row .instance-data-body-row-cell > div {
+      .instance-data .instance-data-body .instance-data-body-row .instance-data-body-row-cell > div {
         display: block; }
-        .instance-data > .instance-data-body > .instance-data-body-row .instance-data-body-row-cell > div > span {
+        .instance-data .instance-data-body .instance-data-body-row .instance-data-body-row-cell > div > span {
           display: flex;
           align-items: center; }
-          .instance-data > .instance-data-body > .instance-data-body-row .instance-data-body-row-cell > div > span > label {
+          .instance-data .instance-data-body .instance-data-body-row .instance-data-body-row-cell > div > span > label {
             font-size: 15px;
             line-height: 20px; }
   .instance-data .instance-data-head-row, .instance-data .instance-data-body-row {
@@ -246,9 +259,6 @@ icon {
 
 #instance-items-handling-block > div > form + div > button {
   margin-left: 12px; }
-
-#instance-items-handling-block > div > div > div.instance-data .instance-data-head-row-cell:nth-of-type(2), #instance-items-handling-block > div > div > div.instance-data .instance-data-body-row-cell:nth-of-type(2) {
-  width: 60px; }
 
 menu.left-menu {
   display: block;
@@ -312,6 +322,9 @@ div.root {
   div.root footer {
     grid-area: footer; }
 
+.manage-projects-list > div > div.instance-data .instance-data-head-row-cell:nth-of-type(2), .manage-projects-list > div > div.instance-data .instance-data-body-row-cell:nth-of-type(2) {
+  width: 60px; }
+
 .form-title {
   font-size: 22px;
   text-align: center;
@@ -334,6 +347,12 @@ div.root {
   height: var(--height);
   line-height: var(--height);
   color: var(--color-text-gark-gray); }
+
+.projects-list > div > select {
+  display: inline-block; }
+
+.projects-list > div > select + button {
+  margin-left: 12px; }
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;

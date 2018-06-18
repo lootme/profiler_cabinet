@@ -6,14 +6,25 @@
 	max-width: 100%;
 	margin-top: 20px;
 	box-shadow: 0 0 0 1px var(--color-box-shadow-gray-dark);
-	> .instance-data-head {
+	.instance-data-head {
 		display: flex;
 		background-color: #f2f2f2;
 		box-shadow: 0 -1px var(--color-box-shadow-gray-dark) inset, 0 0 3px var(--color-box-shadow-gray-dark);
 	}
-	> .instance-data-body {
+	.instance-data-body {
 		display: grid;
-		> .instance-data-body-row {
+		.instance-data-body-row-group {
+			&:nth-of-type(n+2) {
+				box-shadow: 0 1px var(--color-box-shadow-gray-dark) inset;
+			}
+			> .instance-data-body-row.group-id {
+				min-height: 30px;
+				align-items: center;
+				padding: 10px;
+				background: #91d57963;
+			}
+		}
+		.instance-data-body-row {
 			--background-color: var(--color-gray);
 			background-color: var(--background-color);
 			&:hover {

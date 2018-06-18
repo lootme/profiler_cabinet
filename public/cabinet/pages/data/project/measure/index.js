@@ -5,6 +5,7 @@ module.exports = (data, onLogicProcessed) => {
 		title : 'Point',
 		view_mode: true,
 		has_detail: true,
+		mainClass: 'data-projects-measure-list',
 		fields_settings : {
 			MeasureId : {
 				hide : true
