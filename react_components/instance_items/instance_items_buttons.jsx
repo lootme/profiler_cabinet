@@ -13,7 +13,7 @@ class InstanceItemsButtons extends React.Component {
   
 	render() {
 		return (
-			<div className="instance-control-buttons">
+			<div className={this.props.buttonsClass}>
 				<button onClick={this.delete}>Delete</button>
 			</div>
 		)

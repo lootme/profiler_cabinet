@@ -6,7 +6,12 @@ module.exports = {
 					title : params.title,
 					addMode : params.add_mode || false,
 					viewMode : params.view_mode || false,
-					addCallback : params.add_callback || false
+					addCallback : params.add_callback || false,
+					mainClass : ' ' + params.mainClass || '',
+					rowClass : ' ' + params.rowClass || '',
+					cellClass : ' ' + params.cellClass || '',
+					addFormClass : ' ' + params.addFormClass || '',
+					buttonsClass : ' ' + params.buttonsClass || '',
 				},
 				fieldParams;
 			

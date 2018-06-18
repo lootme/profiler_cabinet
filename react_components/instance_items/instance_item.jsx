@@ -139,16 +139,16 @@ class InstanceItem extends React.Component {
 				
 			}
 			return (
-				<div className="instance-data-body-row-cell">{cell}</div>
+				<div className={this.props.cellClass}>{cell}</div>
 			)
 		});
 		if(!this.props.viewMode) {
-			cells.push(<div className="instance-data-body-row-cell"><button onClick={this.props.editingData ? this.saveEdited : this.setEditingData}>{this.props.editingData ? 'Save' : 'Edit'}</button></div>);
+			cells.push(<div className={this.props.cellClass}><button onClick={this.props.editingData ? this.saveEdited : this.setEditingData}>{this.props.editingData ? 'Save' : 'Edit'}</button></div>);
 		}
 		return (
-				<div className="instance-data-body-row">
+				<div className={this.props.rowClass}>
 					{!this.props.viewMode &&
-						<div className="instance-data-body-row-cell"><input type="checkbox" value={this.props.instanceItemData.id} onChange={this.addSelected} /></div>
+						<div className={this.props.cellClass}><input type="checkbox" value={this.props.instanceItemData.id} onChange={this.addSelected} /></div>
 					}
 					{cells}
 				</div>

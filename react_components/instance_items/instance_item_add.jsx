@@ -105,7 +105,7 @@ class InstanceItemAdd extends React.Component {
 			}
 		});
 		return (
-				<form onSubmit={this.add} className="form-instance-add">
+				<form onSubmit={this.add} className={this.props.addFormClass}>
 					{inputs}
 					<input type="submit" name="instance_item_submit" value="Add" />
 				</form>

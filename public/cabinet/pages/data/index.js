@@ -4,7 +4,7 @@ module.exports = (data, onLogicProcessed) => {
 		name : 'project',
 		title : 'Projects',
 		view_mode: true,
-		has_detail: true
+		has_detail: true,
 	};
 
 	onLogicProcessed(data);

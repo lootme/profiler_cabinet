@@ -95,6 +95,8 @@ class InstanceItems extends React.Component {
 						viewMode={this.props.data.viewMode}
 						hasDetail={this.props.data.hasDetail}
 						editingData={editingData}
+						rowClass={"instance-data-body-row" + this.props.data.rowClass}
+						cellClass={"instance-data-body-row-cell" + this.props.data.cellClass}
 					/>
 			});
 			itemsAvg = (this.props.data.groupAvg) ? ' (' + itemsAvg/itemsCount + ')' : '';
@@ -148,14 +150,14 @@ class InstanceItems extends React.Component {
 			});
 		}
 
-		var addForm = (!this.props.data.viewMode) ? <InstanceItemAdd fields={this.props.data.fields} /> : '',
-			buttons = (!this.props.data.viewMode) ? <InstanceItemsButtons /> : '';
+		var addForm = (!this.props.data.viewMode) ? <InstanceItemAdd addFormClass={"form-instance-add" + this.props.data.addFormClass} fields={this.props.data.fields} /> : '',
+			buttons = (!this.props.data.viewMode) ? <InstanceItemsButtons buttonsClass={"instance-control-buttons" + this.props.data.buttonsClass} /> : '';
 
 		if(this.props.data.addMode) {
 			return addForm;
 		} else {
 			return (
-				<div>
+				<div className={"instance-data-container" + this.props.data.mainClass}>
 					<h2 className="sub-heading">{this.props.data.title}</h2>
 					<div class="errors-holder"></div>
 					{addForm}

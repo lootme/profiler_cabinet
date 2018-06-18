@@ -21858,14 +21858,14 @@ var InstanceItem = function (_React$Component) {
 				}
 				return React.createElement(
 					"div",
-					{ className: "instance-data-body-row-cell" },
+					{ className: _this2.props.cellClass },
 					cell
 				);
 			});
 			if (!this.props.viewMode) {
 				cells.push(React.createElement(
 					"div",
-					{ className: "instance-data-body-row-cell" },
+					{ className: this.props.cellClass },
 					React.createElement(
 						"button",
 						{ onClick: this.props.editingData ? this.saveEdited : this.setEditingData },
@@ -21875,10 +21875,10 @@ var InstanceItem = function (_React$Component) {
 			}
 			return React.createElement(
 				"div",
-				{ className: "instance-data-body-row" },
+				{ className: this.props.rowClass },
 				!this.props.viewMode && React.createElement(
 					"div",
-					{ className: "instance-data-body-row-cell" },
+					{ className: this.props.cellClass },
 					React.createElement("input", { type: "checkbox", value: this.props.instanceItemData.id, onChange: this.addSelected })
 				),
 				cells
@@ -22041,7 +22041,7 @@ var InstanceItemAdd = function (_React$Component) {
 			});
 			return React.createElement(
 				'form',
-				{ onSubmit: this.add, className: 'form-instance-add' },
+				{ onSubmit: this.add, className: this.props.addFormClass },
 				inputs,
 				React.createElement('input', { type: 'submit', name: 'instance_item_submit', value: 'Add' })
 			);
@@ -22167,7 +22167,9 @@ var InstanceItems = function (_React$Component) {
 						fields: _this2.props.data.fields,
 						viewMode: _this2.props.data.viewMode,
 						hasDetail: _this2.props.data.hasDetail,
-						editingData: editingData
+						editingData: editingData,
+						rowClass: "instance-data-body-row" + _this2.props.data.rowClass,
+						cellClass: "instance-data-body-row-cell" + _this2.props.data.cellClass
 					});
 				});
 				itemsAvg = _this2.props.data.groupAvg ? ' (' + itemsAvg / itemsCount + ')' : '';
@@ -22235,15 +22237,15 @@ var InstanceItems = function (_React$Component) {
 				});
 			}
 
-			var addForm = !this.props.data.viewMode ? React.createElement(InstanceItemAdd, { fields: this.props.data.fields }) : '',
-			    buttons = !this.props.data.viewMode ? React.createElement(InstanceItemsButtons, null) : '';
+			var addForm = !this.props.data.viewMode ? React.createElement(InstanceItemAdd, { addFormClass: "form-instance-add" + this.props.data.addFormClass, fields: this.props.data.fields }) : '',
+			    buttons = !this.props.data.viewMode ? React.createElement(InstanceItemsButtons, { buttonsClass: "instance-control-buttons" + this.props.data.buttonsClass }) : '';
 
 			if (this.props.data.addMode) {
 				return addForm;
 			} else {
 				return React.createElement(
 					"div",
-					null,
+					{ className: "instance-data-container" + this.props.data.mainClass },
 					React.createElement(
 						"h2",
 						{ className: "sub-heading" },
@@ -22349,7 +22351,7 @@ var InstanceItemsButtons = function (_React$Component) {
 		value: function render() {
 			return React.createElement(
 				"div",
-				{ className: "instance-control-buttons" },
+				{ className: this.props.buttonsClass },
 				React.createElement(
 					"button",
 					{ onClick: this.delete },
