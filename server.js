@@ -1,5 +1,6 @@
 // strict mode for all modules
 require('use-strict');
+'use strict';
 
 // native modules
 var http = require('http'),
@@ -30,8 +31,7 @@ app.use(cookieSession({
 global.auth = require('./core/auth.js')(app);
 
 // jsx support
-var jsx = require('node-jsx');
-jsx.install();
+require('node-require-jsx').install()
 
 // cms
 var config = require('./config'),

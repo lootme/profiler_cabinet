@@ -66,9 +66,12 @@ class InstanceItems extends React.Component {
 			InstanceItemsActions.setOrder(event.target.value);
 	}
 
-
 	saveEdited() {
 		InstanceItemsActions.updateInstanceItem();
+	}
+	
+	toggleGroup(event) {
+		event.target.parentElement.classList.toggle('opened');
 	}
 
 	render() {
@@ -104,7 +107,7 @@ class InstanceItems extends React.Component {
 			return !groupId ?
 				instanceItems :
 				<div className="instance-data-body-row-group">
-					<div className="instance-data-body-row group-id">{groupId} (count: {itemsCount}){itemsAvg}{itemsSumm}</div>
+					<div className="instance-data-body-row group-id" onClick={this.toggleGroup}>{groupId} (count: {itemsCount}){itemsAvg}{itemsSumm}</div>
 					{instanceItems}
 				</div>
 		}
