@@ -1,4 +1,5 @@
 .form-border {
+	align-self: center;
 	background-color: var(--color-white);
 	width: 300px;
 	padding: 20px;
@@ -8,6 +9,16 @@
 		> div {
 			margin-top: 10px;
 			color: var(--color-text-gray);
+		}
+		p {
+			font-size: 15px;
+			line-height: 18px;
+			color: var(--color-text-gray);
+		}
+		a {
+			font-size: 15px;
+			line-height: 18px;
+			color: var(--color-blue);
 		}
 	}
 }

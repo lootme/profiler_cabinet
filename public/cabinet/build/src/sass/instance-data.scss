@@ -15,13 +15,38 @@
 		display: grid;
 		.instance-data-body-row-group {
 			&:nth-of-type(n+2) {
-				box-shadow: 0 1px var(--color-box-shadow-gray-dark) inset;
+				box-shadow: 0 -1px var(--color-box-shadow-gray-dark);
 			}
-			> .instance-data-body-row.group-id {
-				min-height: 30px;
-				align-items: center;
-				padding: 10px;
-				background: #91d57963;
+			.instance-data-body-row {
+				transition-property: max-height, opacity, background-color, color;
+				transition-duration: .2s;
+				&:nth-of-type(1) {
+					min-height: 30px;
+					align-items: center;
+					padding: 10px;
+					cursor: pointer;
+					background-color: var(--color-white);
+					color: var(--color-blue);
+					text-decoration: underline;
+				}
+				&:nth-of-type(n+2) {
+					max-height: 0;
+					opacity: 0;
+					pointer-events: none;
+				}
+			}
+			&.open {
+				.instance-data-body-row {
+					&:nth-of-type(1) {
+						background-color: rgba(145, 213, 121, 0.4);
+						color: var(--color-text-gark-gray);
+					}
+					&:nth-of-type(n+2) {
+						max-height: 100px;
+						opacity: 1;
+						pointer-events: auto;
+					}
+				}
 			}
 		}
 		.instance-data-body-row {

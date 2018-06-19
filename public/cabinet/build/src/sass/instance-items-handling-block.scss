@@ -1,5 +1,13 @@
 #instance-items-handling-block {
 	> div {
+		div {
+			> select {
+				display: inline-block;
+			}
+			> select + button {
+				margin-left: 12px;
+			}
+		}
 		> form {
 			padding: 20px;
 			border-radius: 2px;
