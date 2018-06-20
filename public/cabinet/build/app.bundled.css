@@ -222,10 +222,10 @@ icon {
         max-height: 0;
         opacity: 0;
         pointer-events: none; }
-    .instance-data .instance-data-body .instance-data-body-row-group.open .instance-data-body-row:nth-of-type(1) {
+    .instance-data .instance-data-body .instance-data-body-row-group.opened .instance-data-body-row:nth-of-type(1) {
       background-color: rgba(145, 213, 121, 0.4);
       color: var(--color-text-gark-gray); }
-    .instance-data .instance-data-body .instance-data-body-row-group.open .instance-data-body-row:nth-of-type(n+2) {
+    .instance-data .instance-data-body .instance-data-body-row-group.opened .instance-data-body-row:nth-of-type(n+2) {
       max-height: 100px;
       opacity: 1;
       pointer-events: auto; }
