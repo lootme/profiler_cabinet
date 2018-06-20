@@ -1,0 +1,6 @@
+div.nav-chain
+	each item, index in data.items
+		a.nav-chain-item(href=item.url) #{item.name}
+		- var nextIndex = parseInt(index) + 1;
+		if(data.items[nextIndex])
+			span.nav-chain-item-icon

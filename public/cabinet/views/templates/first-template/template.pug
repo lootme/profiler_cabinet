@@ -21,5 +21,7 @@ html
 					icon
 				a(href="/cabinet/statistics/") Statistics
 					icon
-			content.site-content #CONTENT_PLACEHOLDER#
+			content.site-content
+				!=cms.includeBlock('nav_items', {})
+				| #CONTENT_PLACEHOLDER#
 			footer.footer Code Profiling System 2018
