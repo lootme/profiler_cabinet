@@ -1,5 +1,7 @@
 module.exports = (data, onLogicProcessed) => {
 	
+	cms.setPageTitle("Measures statistics common graphic");
+	
 	data.statisticsSettings = {
 		type: 'barLine',
 		instanceName: 'point',

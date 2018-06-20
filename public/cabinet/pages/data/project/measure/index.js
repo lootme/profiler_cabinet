@@ -1,5 +1,7 @@
 module.exports = (data, onLogicProcessed) => {
 	
+	cms.setPageTitle("View profiling data - sessions");
+	
 	data.instanceManagmentSettings = {
 		name : 'point',
 		title : 'Point',

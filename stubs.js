@@ -12,5 +12,14 @@ module.exports = () => {
 			
 		},
 		
+		getPageTitle : (execute) => {
+			
+			var execute = execute || false;
+			
+			return execute ? cms.getPageTitle() : cms.registerStub('getPageTitle');
+			
+		},
+		
 	}
 }
+

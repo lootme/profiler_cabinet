@@ -1,5 +1,7 @@
 module.exports = (data, onLogicProcessed) => {
 	
+	cms.setPageTitle("View and analyze statistics - choose project");
+	
 	data.instanceManagmentSettings = {
 		name : 'project',
 		title : 'Projects',

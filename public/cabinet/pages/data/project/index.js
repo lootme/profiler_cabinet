@@ -1,5 +1,7 @@
 module.exports = (data, onLogicProcessed) => {
 	
+	cms.setPageTitle("View profiling data - choose measure");
+	
 	data.instanceManagmentSettings = {
 		name : 'measure',
 		title : 'Measure',

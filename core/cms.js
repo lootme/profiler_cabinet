@@ -22,6 +22,7 @@ module.exports = (config) => {
 		currentUrl,
 		redirectPath = false,
 		pageError = '',
+		pageTitle = 'Profilet Cabinet',
 		stubs = [],
 		allowRedirects;
 		
@@ -173,6 +174,14 @@ module.exports = (config) => {
 		
 		getPageError : () => {
 			return pageError;
+		},
+		
+		setPageTitle : (title) => {
+			pageTitle = title;
+		},
+		
+		getPageTitle : () => {
+			return pageTitle;
 		},
 		
 		registerStub : (funcName) => {

@@ -4,6 +4,8 @@ module.exports = (data, onLogicProcessed) => {
 	
 	var user = auth.get();
 	
+	cms.setPageTitle("Manage projects");
+	
 	data.instanceManagmentSettings = {
 		name : 'project',
 		title : 'Projects',

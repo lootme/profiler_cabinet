@@ -1,5 +1,7 @@
 module.exports = (data, onLogicProcessed) => {
 	
+	cms.setPageTitle("Every session statistics of one measure (" + data.get.statistics_type + ")");
+	
 	data.statisticsSettings = {
 		type: 'line',
 		multiple: true,
