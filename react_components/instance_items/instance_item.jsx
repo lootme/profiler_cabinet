@@ -124,7 +124,7 @@ class InstanceItem extends React.Component {
 							});
 						} else {
 							// type - json
-							cell.push(JSON.stringify(field));
+							cell.push(JSON.stringify(this.props.instanceItemData[key]));
 						}
 					}
 				});

@@ -22748,7 +22748,7 @@ var InstanceItem = function (_React$Component) {
 								});
 							} else {
 								// type - json
-								cell.push(JSON.stringify(field));
+								cell.push(JSON.stringify(_this2.props.instanceItemData[key]));
 							}
 						}
 					});
