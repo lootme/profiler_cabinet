@@ -42,6 +42,12 @@ module.exports = {
 			if(params.groupBy) {
 				apiCallParams.groupBy = params.groupBy;
 			}
+			if(params.sortBy) {
+				apiCallParams.sortBy = params.sortBy;
+			}
+			if(params.orderBy) {
+				apiCallParams.orderBy = params.orderBy;
+			}
 			cms.call(params.instanceName, 'getItems', apiCallParams, function(instanceItems) {
 
 				if(params.groupBy) {

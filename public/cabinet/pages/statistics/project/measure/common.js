@@ -38,7 +38,8 @@ module.exports = (data, onLogicProcessed) => {
 				name: 'memory',
 				unit: 'b',
 			}
-		}
+		},
+		sortBy: 'datetime',
 	};
 
 	onLogicProcessed(data);
