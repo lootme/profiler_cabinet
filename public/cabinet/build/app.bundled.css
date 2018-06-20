@@ -377,6 +377,19 @@ div.root {
 a {
   color: var(--color-blue); }
 
+.nav-chain {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; }
+  .nav-chain > a {
+    display: flex;
+    align-items: center; }
+    .nav-chain > a > icon {
+      --icon__size: 10px;
+      --icon__color: var(--color-text-gark-gray);
+      --data: url(/public/guest/build/src/images/right-arrow.svg);
+      margin: 0 6px; }
+
 .projects-list > div > select {
   display: inline-block; }
 

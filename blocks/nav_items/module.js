@@ -14,7 +14,7 @@ module.exports = {
 
 				result.items[i] = {
 					name: curPathItem,
-					url: curPathItemUrl
+					url: pathItems[parseInt(i)+1] ? curPathItemUrl : ''
 				}
 			}
 			

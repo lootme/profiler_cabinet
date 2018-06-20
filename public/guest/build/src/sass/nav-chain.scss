@@ -1,0 +1,15 @@
+.nav-chain {
+	display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+	> a {
+		display: flex;
+		align-items: center;
+		> icon {
+			--icon__size: 10px;
+			--icon__color: var(--color-text-gark-gray);
+			--data: url(/public/guest/build/src/images/right-arrow.svg);
+			margin: 0 6px;
+		}
+	}
+}
