@@ -90,7 +90,7 @@ module.exports = {
 						diff: point.dataValues.diff,
 						trace: point.dataValues.trace,
 						comment: point.dataValues.comment,
-						datetime: helper.formatDate(point.dataValues.datetime.toString(), true),
+						datetime: helper.formatDate(point.dataValues.datetime.toString(), true, true),
 						sessionId: point.dataValues.sessionId,
 						MeasureId: point.dataValues.MeasureId,
 						PointTypeId: point.dataValues.PointTypeId,

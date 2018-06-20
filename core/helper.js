@@ -62,17 +62,22 @@ function capitalize( str ) {
     return str.substr(0, 1).toUpperCase() + str.substr(1);
 }
 
-function formatDate(date, isString) {
-	var isString = isString || false;
+function formatDate(date, isString, showSeconds) {
+	var isString = isString || false,
+		showSeconds = showSeconds || false;
 	if(isString)
 		date = new Date(date);
-	return date.toLocaleString('ru', {
+	var format = {
 		year: 'numeric',
 		month: 'numeric',
 		day: 'numeric',
 		hour: '2-digit',
 		minute:'2-digit'
-	})
+	};
+	if(showSeconds) {
+		format.second = '2-digit';
+	}
+	return date.toLocaleString('ru', format)
 	.replace(',', '');
 }
 

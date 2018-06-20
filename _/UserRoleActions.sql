@@ -43,4 +43,4 @@ INSERT INTO "UserRoleActions" ("id", "name", "code", "createdAt", "updatedAt") V
 (25,	'Update own measures',	'MEASURES_UPDATE_OWN',	'2018-06-12 21:28:40.575+00',	'2018-06-12 21:28:40.575+00'),
 (26,	'Update measures',	'MEASURES_UPDATE',	'2018-06-12 21:28:43.853+00',	'2018-06-12 21:28:43.853+00');
 
--- 2018-06-18 08:54:05.098855+00
+-- 2018-06-20 19:50:25.636805+00
