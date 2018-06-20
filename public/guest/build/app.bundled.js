@@ -23114,6 +23114,8 @@ module.exports = InstanceItemAdd;
 },{"../../react_actions/InstanceItemsActions":31,"react":28}],38:[function(require,module,exports){
 "use strict";
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -23213,16 +23215,30 @@ var InstanceItems = function (_React$Component) {
 			var renderInstanceItems = function renderInstanceItems(items, groupId) {
 				// TODO move all calculations to backend
 				var itemsCount = 0,
-				    itemsAvg = 0,
-				    itemsSumm = 0;
+
+				//itemsAvg = 0,
+				countedSumms = [],
+				    currentSumm;
 				var instanceItems = Object.keys(items).map(function (key, index) {
 					var editingData = _this2.state.editingData && _this2.state.editingData.id == _this2.state.instanceItems[key].id ? _this2.state.editingData : false;
 					itemsCount++;
-					if (_this2.props.data.groupAvg) {
-						itemsAvg += parseFloat(items[key][_this2.props.data.groupAvg]);
-					}
-					if (_this2.props.data.groupSumm) {
-						itemsSumm += parseFloat(items[key][_this2.props.data.groupSumm]);
+					/*if(this.props.data.groupAvg) {
+     	itemsAvg += parseFloat(items[key][this.props.data.groupAvg]);
+     }*/
+					if (_this2.props.data.groupSumms) {
+						for (var i in _this2.props.data.groupSumms) {
+							currentSumm = _this2.props.data.groupSumms[i];
+							if (!countedSumms[i]) countedSumms[i] = 0;
+							if (_typeof(currentSumm.where) == 'object') {
+								for (var whereField in currentSumm.where) {
+									if (items[key][whereField] === currentSumm.where[whereField]) {
+										countedSumms[i] += parseFloat(items[key][currentSumm.field]);
+									}
+								}
+							} else {
+								countedSumms[i] += parseFloat(items[key][currentSumm.field]);
+							}
+						}
 					}
 					return React.createElement(InstanceItem, {
 						key: index,
@@ -23235,8 +23251,14 @@ var InstanceItems = function (_React$Component) {
 						cellClass: "instance-data-body-row-cell" + _this2.props.data.cellClass
 					});
 				});
-				itemsAvg = _this2.props.data.groupAvg ? ' (' + itemsAvg / itemsCount + ')' : '';
-				itemsSumm = _this2.props.data.groupSumm ? ' (' + itemsSumm + ')' : '';
+				//itemsAvg = (this.props.data.groupAvg) ? ' (' + itemsAvg/itemsCount + ')' : '';
+				var itemsSummInformation = '';
+				if (_this2.props.data.groupSumms) {
+					for (var i in _this2.props.data.groupSumms) {
+						currentSumm = _this2.props.data.groupSumms[i];
+						itemsSummInformation += ' (' + currentSumm.name + ': ' + countedSumms[i] + currentSumm.unit + ')';
+					}
+				}
 				return !groupId ? instanceItems : React.createElement(
 					"div",
 					{ className: "instance-data-body-row-group" },
@@ -23247,8 +23269,7 @@ var InstanceItems = function (_React$Component) {
 						" (count: ",
 						itemsCount,
 						")",
-						itemsAvg,
-						itemsSumm
+						itemsSummInformation
 					),
 					instanceItems
 				);

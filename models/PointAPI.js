@@ -15,6 +15,13 @@ module.exports = {
 		}
 		
 		var where = {};
+		if(params.where) {
+			try {
+				where = JSON.parse(params.where);
+			} catch(e) {
+				where = params.where;
+			}
+		}
 		if(authUser) {
 			//where.UserId = authUser.id; TODO checking user by project
 		}
@@ -44,7 +51,7 @@ module.exports = {
 			return;
 		}
 	
-		var sortField = params.sortBy || 'id',
+		var sortField = params.sortBy || 'index',
 			sortOrder = params.orderBy || 'ASC';
 		
 		Point.findAll({
@@ -210,7 +217,7 @@ module.exports = {
 			measure_name: { type: 's', required: true },
 			type: { type: 'i', required: true, inValues: true, values: [1,2] },
 			index: { type: 'i', required: true, positive: true },
-			value: { type: 'f', required: true, positive: true },
+			value: { type: 'f', positive: true },
 			diff: { type: 's', required: true },
 			trace: { type: 'j', required: true },
 			comment: { type: 's', required: true },

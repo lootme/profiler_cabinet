@@ -1,11 +1,13 @@
 module.exports = (data, onLogicProcessed) => {
 	
 	data.instanceManagmentSettings = {
-		name : 'project',
-		title : 'Projects',
+		name : 'measure',
+		title : 'Measure',
 		view_mode: true,
 		has_detail: true,
-		mainClass: 'projects-list',
+		filter: {
+			ProjectId: data.get.project_id
+		}
 	};
 
 	onLogicProcessed(data);

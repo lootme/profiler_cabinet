@@ -10,6 +10,26 @@
 			"rule": "\/data\/project-(\\d*)\/",
 			"matches": ["project_id"],
 			"path": "/data/project/index.js"
+		},
+		{
+			"rule": "\/statistics\/project-\\d*\/measure-(\\d*)\/sessions-([^\/]*)\/",
+			"matches": ["measure_id", "statistics_type"],
+			"path": "/statistics/project/measure/sessions.js"
+		},
+		{
+			"rule": "\/statistics\/project-\\d*\/measure-(\\d*)\/common\/",
+			"matches": ["measure_id"],
+			"path": "/statistics/project/measure/common.js"
+		},
+		{
+			"rule": "\/statistics\/project-\\d*\/measure-(\\d*)\/",
+			"matches": ["measure_id"],
+			"path": "/statistics/project/measure/index.js"
+		},
+		{
+			"rule": "\/statistics\/project-(\\d*)\/",
+			"matches": ["project_id"],
+			"path": "/statistics/project/index.js"
 		}
 	]
 }

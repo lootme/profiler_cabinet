@@ -1,6 +1,6 @@
 var React = require("react");
-//import {Line} from 'react-chartjs-2';
 import {Bar} from 'react-chartjs-2';
+import {Line} from 'react-chartjs-2';
 
 // child components
 
@@ -19,98 +19,57 @@ class Statistics extends React.Component {
 	}
 
 	render() {
-		const data = {
-		  //labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-		  datasets: [{
-			  label: 'Sales',
-			  type:'line',
-			  data: [51, 65, 40, 49, 60, 37, 40],
-			  fill: false,
-			  borderColor: '#EC932F',
-			  backgroundColor: '#EC932F',
-			  pointBorderColor: '#EC932F',
-			  pointBackgroundColor: '#EC932F',
-			  pointHoverBackgroundColor: '#EC932F',
-			  pointHoverBorderColor: '#EC932F',
-			  yAxisID: 'y-axis-2'
-			},{
-			  type: 'bar',
-			  label: 'Visitor',
-			  data: [200, 185, 590, 621, 250, 400, 95],
-			  fill: false,
-			  backgroundColor: '#71B37C',
-			  borderColor: '#71B37C',
-			  hoverBackgroundColor: '#71B37C',
-			  hoverBorderColor: '#71B37C',
-			  yAxisID: 'y-axis-1'
-			}]
-		};
 
-		const options = {
-		  responsive: true,
-		  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-		  tooltips: {
-			mode: 'label'
-		  },
-		  elements: {
-			line: {
-			  fill: false
-			}
-		  },
-		  scales: {
-			xAxes: [
-			  {
-				display: true,
-				gridLines: {
-				  display: false
-				},
-				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-			  }
-			],
-			yAxes: [
-			  {
-				type: 'linear',
-				display: true,
-				position: 'left',
-				id: 'y-axis-1',
-				gridLines: {
-				  display: false
-				},
-				labels: {
-				  show: true
+		switch(this.props.data.type) {
+			
+			case "barLine":
+			
+				return (
+					<div>
+						<Bar
+							data={this.props.data.plugin.data}
+							options={this.props.data.plugin.options}
+							plugins={this.props.data.plugin.plugins}
+						/>
+					</div>
+				)
+		
+				break;
+				
+			case "line":
+
+				var charts;
+				if(this.props.data.multiple) {
+					charts = Object.keys(this.props.data.data).map((key, index) => {
+						return (
+							<div>
+								<h2>Session Id: {key}</h2>
+								<Line data={this.props.data.data[key]} />
+							</div>
+						);
+					});
+					
+				} else {
+
+					charts = (
+						<div>
+							<h2>Statistics</h2>
+							<Line data={this.props.data.data} />
+						</div>
+					);
+					
 				}
-			  },
-			  {
-				type: 'linear',
-				display: true,
-				position: 'right',
-				id: 'y-axis-2',
-				gridLines: {
-				  display: false
-				},
-				labels: {
-				  show: true
-				}
-			  }
-			]
-		  }
-		};
-		const plugins = [{
-			afterDraw: (chartInstance, easing) => {
-				const ctx = chartInstance.chart.ctx;
-				ctx.fillText("This text drawn by a plugin", 100, 100);
-			}
-		}];
-		return (
-			<div>
-				<h2>Mixed data Example</h2>
-				<Bar
-					data={data}
-					options={options}
-					plugins={plugins}
-				/>
-			</div>
-		)
+				
+				return charts;
+		
+				break;
+				
+			default:
+			
+				return (
+					<div>No type passed!</div>
+				)
+		}
 	}
 
 }

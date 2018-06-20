@@ -46792,6 +46792,8 @@ module.exports = InstanceItemAdd;
 },{"../../react_actions/InstanceItemsActions":226,"react":223}],231:[function(require,module,exports){
 "use strict";
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -46891,16 +46893,30 @@ var InstanceItems = function (_React$Component) {
 			var renderInstanceItems = function renderInstanceItems(items, groupId) {
 				// TODO move all calculations to backend
 				var itemsCount = 0,
-				    itemsAvg = 0,
-				    itemsSumm = 0;
+
+				//itemsAvg = 0,
+				countedSumms = [],
+				    currentSumm;
 				var instanceItems = Object.keys(items).map(function (key, index) {
 					var editingData = _this2.state.editingData && _this2.state.editingData.id == _this2.state.instanceItems[key].id ? _this2.state.editingData : false;
 					itemsCount++;
-					if (_this2.props.data.groupAvg) {
-						itemsAvg += parseFloat(items[key][_this2.props.data.groupAvg]);
-					}
-					if (_this2.props.data.groupSumm) {
-						itemsSumm += parseFloat(items[key][_this2.props.data.groupSumm]);
+					/*if(this.props.data.groupAvg) {
+     	itemsAvg += parseFloat(items[key][this.props.data.groupAvg]);
+     }*/
+					if (_this2.props.data.groupSumms) {
+						for (var i in _this2.props.data.groupSumms) {
+							currentSumm = _this2.props.data.groupSumms[i];
+							if (!countedSumms[i]) countedSumms[i] = 0;
+							if (_typeof(currentSumm.where) == 'object') {
+								for (var whereField in currentSumm.where) {
+									if (items[key][whereField] === currentSumm.where[whereField]) {
+										countedSumms[i] += parseFloat(items[key][currentSumm.field]);
+									}
+								}
+							} else {
+								countedSumms[i] += parseFloat(items[key][currentSumm.field]);
+							}
+						}
 					}
 					return React.createElement(InstanceItem, {
 						key: index,
@@ -46913,8 +46929,14 @@ var InstanceItems = function (_React$Component) {
 						cellClass: "instance-data-body-row-cell" + _this2.props.data.cellClass
 					});
 				});
-				itemsAvg = _this2.props.data.groupAvg ? ' (' + itemsAvg / itemsCount + ')' : '';
-				itemsSumm = _this2.props.data.groupSumm ? ' (' + itemsSumm + ')' : '';
+				//itemsAvg = (this.props.data.groupAvg) ? ' (' + itemsAvg/itemsCount + ')' : '';
+				var itemsSummInformation = '';
+				if (_this2.props.data.groupSumms) {
+					for (var i in _this2.props.data.groupSumms) {
+						currentSumm = _this2.props.data.groupSumms[i];
+						itemsSummInformation += ' (' + currentSumm.name + ': ' + countedSumms[i] + currentSumm.unit + ')';
+					}
+				}
 				return !groupId ? instanceItems : React.createElement(
 					"div",
 					{ className: "instance-data-body-row-group" },
@@ -46925,8 +46947,7 @@ var InstanceItems = function (_React$Component) {
 						" (count: ",
 						itemsCount,
 						")",
-						itemsAvg,
-						itemsSumm
+						itemsSummInformation
 					),
 					instanceItems
 				);
@@ -47121,7 +47142,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var React = require("react");
-//import {Line} from 'react-chartjs-2';
 
 // child components
 
@@ -47147,97 +47167,67 @@ var Statistics = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var data = {
-				//labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-				datasets: [{
-					label: 'Sales',
-					type: 'line',
-					data: [51, 65, 40, 49, 60, 37, 40],
-					fill: false,
-					borderColor: '#EC932F',
-					backgroundColor: '#EC932F',
-					pointBorderColor: '#EC932F',
-					pointBackgroundColor: '#EC932F',
-					pointHoverBackgroundColor: '#EC932F',
-					pointHoverBorderColor: '#EC932F',
-					yAxisID: 'y-axis-2'
-				}, {
-					type: 'bar',
-					label: 'Visitor',
-					data: [200, 185, 590, 621, 250, 400, 95],
-					fill: false,
-					backgroundColor: '#71B37C',
-					borderColor: '#71B37C',
-					hoverBackgroundColor: '#71B37C',
-					hoverBorderColor: '#71B37C',
-					yAxisID: 'y-axis-1'
-				}]
-			};
+			var _this2 = this;
 
-			var options = {
-				responsive: true,
-				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-				tooltips: {
-					mode: 'label'
-				},
-				elements: {
-					line: {
-						fill: false
+			switch (this.props.data.type) {
+
+				case "barLine":
+
+					return React.createElement(
+						'div',
+						null,
+						React.createElement(_reactChartjs.Bar, {
+							data: this.props.data.plugin.data,
+							options: this.props.data.plugin.options,
+							plugins: this.props.data.plugin.plugins
+						})
+					);
+
+					break;
+
+				case "line":
+
+					var charts;
+					if (this.props.data.multiple) {
+						charts = Object.keys(this.props.data.data).map(function (key, index) {
+							return React.createElement(
+								'div',
+								null,
+								React.createElement(
+									'h2',
+									null,
+									'Session Id: ',
+									key
+								),
+								React.createElement(_reactChartjs.Line, { data: _this2.props.data.data[key] })
+							);
+						});
+					} else {
+
+						charts = React.createElement(
+							'div',
+							null,
+							React.createElement(
+								'h2',
+								null,
+								'Statistics'
+							),
+							React.createElement(_reactChartjs.Line, { data: this.props.data.data })
+						);
 					}
-				},
-				scales: {
-					xAxes: [{
-						display: true,
-						gridLines: {
-							display: false
-						},
-						labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July']
-					}],
-					yAxes: [{
-						type: 'linear',
-						display: true,
-						position: 'left',
-						id: 'y-axis-1',
-						gridLines: {
-							display: false
-						},
-						labels: {
-							show: true
-						}
-					}, {
-						type: 'linear',
-						display: true,
-						position: 'right',
-						id: 'y-axis-2',
-						gridLines: {
-							display: false
-						},
-						labels: {
-							show: true
-						}
-					}]
-				}
-			};
-			var plugins = [{
-				afterDraw: function afterDraw(chartInstance, easing) {
-					var ctx = chartInstance.chart.ctx;
-					ctx.fillText("This text drawn by a plugin", 100, 100);
-				}
-			}];
-			return React.createElement(
-				'div',
-				null,
-				React.createElement(
-					'h2',
-					null,
-					'Mixed data Example'
-				),
-				React.createElement(_reactChartjs.Bar, {
-					data: data,
-					options: options,
-					plugins: plugins
-				})
-			);
+
+					return charts;
+
+					break;
+
+				default:
+
+					return React.createElement(
+						'div',
+						null,
+						'No type passed!'
+					);
+			}
 		}
 	}]);
 

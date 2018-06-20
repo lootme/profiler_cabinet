@@ -5,7 +5,6 @@ module.exports = (data, onLogicProcessed) => {
 		title : 'Point',
 		view_mode: true,
 		has_detail: true,
-		mainClass: 'data-projects-measure-list',
 		fields_settings : {
 			MeasureId : {
 				hide : true
@@ -15,7 +14,21 @@ module.exports = (data, onLogicProcessed) => {
 			MeasureId: data.get.measure_id
 		},
 		groupBy: 'sessionId',
-		groupSumm: 'diff'
+		groupSumms: [{
+			name: 'Memory',
+			field: 'diff',
+			unit: 'b',
+			where: {
+				PointTypeId: 1
+			},
+		}, {
+			name: 'Time',
+			field: 'diff',
+			unit: 's',
+			where: {
+				PointTypeId: 2
+			}
+		}]
 	};
 
 	onLogicProcessed(data);

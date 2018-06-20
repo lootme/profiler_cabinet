@@ -52,13 +52,13 @@ module.exports = {
 						apiCallParams.groupBy = params.groupBy;
 						result.groupBy = params.groupBy;
 						
-						if(params.groupSumm) {
-							result.groupSumm = params.groupSumm;
+						if(params.groupSumms) {
+							result.groupSumms = params.groupSumms;
 						}
 						
-						if(params.groupAvg) {
+						/*if(params.groupAvg) {
 							result.groupAvg = params.groupAvg;
-						}
+						}*/
 					}
 
 					cms.call(params.name, 'getItems', apiCallParams, function(instanceItems) {

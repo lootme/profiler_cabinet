@@ -78,18 +78,32 @@ class InstanceItems extends React.Component {
 		var renderInstanceItems = (items, groupId) => {
 			// TODO move all calculations to backend
 			var itemsCount = 0,
-				itemsAvg = 0,
-				itemsSumm = 0;
+				//itemsAvg = 0,
+				countedSumms = [],
+				currentSumm;
 			var instanceItems = Object.keys(items).map((key, index) => {
 				var editingData = this.state.editingData &&
 										this.state.editingData.id == this.state.instanceItems[key].id ?
 											this.state.editingData : false;
 				itemsCount++;
-				if(this.props.data.groupAvg) {
+				/*if(this.props.data.groupAvg) {
 					itemsAvg += parseFloat(items[key][this.props.data.groupAvg]);
-				}
-				if(this.props.data.groupSumm) {
-					itemsSumm += parseFloat(items[key][this.props.data.groupSumm]);
+				}*/
+				if(this.props.data.groupSumms) {
+					for(var i in this.props.data.groupSumms) {
+						currentSumm = this.props.data.groupSumms[i];
+						if(!countedSumms[i])
+							countedSumms[i] = 0;
+						if(typeof(currentSumm.where) == 'object') {
+							for(var whereField in currentSumm.where) {
+								if(items[key][whereField] === currentSumm.where[whereField]) {
+									countedSumms[i] += parseFloat(items[key][currentSumm.field]);
+								}
+							}
+						} else {
+							countedSumms[i] += parseFloat(items[key][currentSumm.field]);
+						}
+					}
 				}
 				return <InstanceItem
 						key={index}
@@ -102,12 +116,18 @@ class InstanceItems extends React.Component {
 						cellClass={"instance-data-body-row-cell" + this.props.data.cellClass}
 					/>
 			});
-			itemsAvg = (this.props.data.groupAvg) ? ' (' + itemsAvg/itemsCount + ')' : '';
-			itemsSumm = (this.props.data.groupSumm) ? ' (' + itemsSumm + ')' : '';
+			//itemsAvg = (this.props.data.groupAvg) ? ' (' + itemsAvg/itemsCount + ')' : '';
+			var itemsSummInformation = '';
+			if(this.props.data.groupSumms) {
+					for(var i in this.props.data.groupSumms) {
+						currentSumm = this.props.data.groupSumms[i];
+						itemsSummInformation += ' (' + currentSumm.name + ': ' + countedSumms[i] + currentSumm.unit + ')';
+					}
+			}
 			return !groupId ?
 				instanceItems :
 				<div className="instance-data-body-row-group">
-					<div className="instance-data-body-row group-id" onClick={this.toggleGroup}>{groupId} (count: {itemsCount}){itemsAvg}{itemsSumm}</div>
+					<div className="instance-data-body-row group-id" onClick={this.toggleGroup}>{groupId} (count: {itemsCount}){itemsSummInformation}</div>
 					{instanceItems}
 				</div>
 		}
