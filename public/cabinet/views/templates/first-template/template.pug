@@ -8,20 +8,18 @@ html
 				logo
 				section
 					menu.header-menu
-						a Home
-						a Documentation
-						a Contact us
-					a.login 
-						icon
-						span Log In
+						a(href="/")  Home
+						a(href="/docs/") Documentation
+						a(href="/contacts/") Contact us
+					!=cms.includeBlock('login_button', {})
 			menu.left-menu
-				a Personal Information
+				a(href="/auth/") Personal Information
 					icon
-				a Projects
+				a(href="/cabinet/manage_projects/") Projects
 					icon
-				a Profiling Data
+				a(href="/cabinet/data/") Profiling Data
 					icon
-				a Statistics
+				a(href="/cabinet/statistics/") Statistics
 					icon
 			content.site-content #CONTENT_PLACEHOLDER#
 			footer.footer Code Profiling System 2018
